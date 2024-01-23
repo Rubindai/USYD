@@ -1,0 +1,35 @@
+Question - Single
+Which of the following Python statements will display this message in the terminal?
+*********************************
+Terminal output:
+<Start>I love INFO1110<End>
+*********************************
+Possible Answers: 
+A. print("I love INFO1110")
+B. print("I" "love" "INFO1110")
+C. print("I love" "INFO1110")
+D. print(I love INFO1110)
+Expected Answer: A
+Marks: 1
+
+Question - Multiple
+Select all the animals that are mammals:
+Possible Answers: 
+A. whale
+B. dog
+C. fish
+D. frog
+Expected Answer: A, B
+Marks: 2
+
+Question - Short
+This question is based on the program below:
+*********************************
+# Start
+name = input("What's your name?: ")
+# End
+*********************************
+After running the program, you have keyed in "Bob" followed by the Enter key.
+What is the value stored in variable name?
+Expected Answer: "Bob"
+Marks: 1
