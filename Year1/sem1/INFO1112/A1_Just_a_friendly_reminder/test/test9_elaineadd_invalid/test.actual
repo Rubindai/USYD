@@ -1,0 +1,41 @@
+Just a friendly reminder! You have these tasks to finish today.
+
+These tasks need to be finished in the next three days!
+
+You have the following meetings today!
+
+You have the following meetings scheduled over the next week!
+
+What would you like to do?
+1. Complete tasks
+2. Add a new meeting.
+3. Share a task.
+4. Share a meeting.
+5. Change Jafr's master directory.
+6. Exit
+Please enter a meeting description:
+invalid,try again
+Please enter a date:
+invalid,try again
+invalid,try again
+Please enter a time:
+invalid,try again
+Ok, I have added info1110 on 12/12/12 at 12:12.
+Would you like to share this meeting? [y/n]: What would you like to do?
+1. Complete tasks
+2. Add a new meeting.
+3. Share a task.
+4. Share a meeting.
+5. Change Jafr's master directory.
+6. Exit
+Please enter a meeting description:
+Please enter a date:
+Please enter a time:
+Ok, I have added info1910 on 23/11/25 at 15:19.
+Would you like to share this meeting? [y/n]: What would you like to do?
+1. Complete tasks
+2. Add a new meeting.
+3. Share a task.
+4. Share a meeting.
+5. Change Jafr's master directory.
+6. Exit

@@ -1,0 +1,2 @@
+python3 jafr.py passwd<test3_usercomplete_invalid/test.in>test3_usercomplete_invalid/test.actual
+diff test3_usercomplete_invalid/test.out test3_usercomplete_invalid/test.actual

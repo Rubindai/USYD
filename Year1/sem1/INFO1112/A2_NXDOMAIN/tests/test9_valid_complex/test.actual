@@ -1,0 +1,9 @@
+resolve google.com to 1056
+resolve com to 1234
+resolve com to NXDOMAIN
+resolve google.com to 1057
+resolve www.github.com to 1079
+resolve google.com to 1057
+INVALID
+INVALID
+INVALID
