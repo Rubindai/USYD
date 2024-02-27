@@ -7,22 +7,25 @@ public class GoldenRatio {
 		double ratio =1.618;
 		System.out.print("Enter two numbers: ");
 		Scanner scan = new Scanner(System.in);
+		
 		try{
 			double numa = scan.nextDouble();
 			double numb = scan.nextDouble();
-			double a = Math.round((numa/numb)*100)/100;
-			double b = Math.round((numb/numa)*100)/100;
-			if (a==ratio || b == ratio){
-				System.out.println("Golden ratio!");
+			double a = Math.round((numa/numb)*1000)/1000.0;
+			double b = Math.round((numb/numa)*1000)/1000.0;
+			// System.out.println(numa+" "+numb);
+			if (a ==ratio || b == ratio){
+				System.out.println("\nGolden ratio!");
 			}
 			else{
-				System.out.println("Maybe next time.");
+				System.out.println("\nMaybe next time.");
 			}
 		
 			}
 		
 		catch(Exception e){
-			System.out.println("Invalid input.");
+			
+			System.out.println("\nInvalid input.");
 		}
 	}
 }
