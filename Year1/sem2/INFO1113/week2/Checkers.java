@@ -88,7 +88,7 @@ public class Checkers {
         int y1 = -1;
         int y2=-1;
         
-        while (true){
+        while (true){   
             while (true){
             String input = scan.nextLine();
 
@@ -229,6 +229,7 @@ public class Checkers {
         }
         if (flag_error==true){
         System.out.println("Error!");
+        System.out.println();
         flag_error=false;
         displayBoard();
     }
@@ -310,7 +311,10 @@ public class Checkers {
                         if(board[fromRow-1][fromCol+1].equals(white_small) ||board[fromRow-1][fromCol+1].equals(white_k) ){
                             board[fromRow-1][fromCol+1]=" ";
                             return true;
-               }       else{
+               }        else if (board[fromRow-1][fromCol+1].equals(black_small) ||board[fromRow-1][fromCol+1].equals(black_k) ){
+                return true;
+               }
+                        else{
                         return false;
                 }
             }
@@ -319,7 +323,10 @@ public class Checkers {
                             board[fromRow-1][fromCol-1]=" ";
                             return true;
 
-                    }   else{
+                    }   else if(board[fromRow-1][fromCol-1].equals(black_small) ||board[fromRow-1][fromCol-1].equals(black_k) ){
+                        return true;
+                    }
+                        else{
                         return false;
                     }
                 } 
@@ -336,7 +343,10 @@ public class Checkers {
                     if(board[fromRow-1][fromCol+1].equals(white_small) ||board[fromRow-1][fromCol+1].equals(white_k) ){
                         board[fromRow-1][fromCol+1]=" ";
                         return true;
-                }   else{
+                }   else if(board[fromRow-1][fromCol+1].equals(black_small) ||board[fromRow-1][fromCol+1].equals(black_k) ){
+                    return true;
+                }
+                    else{
                     return false;
                 }
             }   
@@ -344,7 +354,10 @@ public class Checkers {
                     if(board[fromRow-1][fromCol-1].equals(white_small) ||board[fromRow-1][fromCol-1].equals(white_k) ){
                         board[fromRow-1][fromCol-1]=" ";
                         return true;
-                }   else{
+                }   else if(board[fromRow-1][fromCol-1].equals(black_small) ||board[fromRow-1][fromCol-1].equals(black_k) ){
+                    return true;
+                }
+                    else{
                     return false;
                 }
             }
@@ -352,7 +365,10 @@ public class Checkers {
                     if(board[fromRow+1][fromCol-1].equals(white_small) ||board[fromRow+1][fromCol-1].equals(white_k) ){
                         board[fromRow+1][fromCol-1]=" ";
                         return true;
-                }   else{
+                }   else if(board[fromRow+1][fromCol-1].equals(black_small) ||board[fromRow+1][fromCol-1].equals(black_k) ){
+                    return true;
+                }
+                    else{
                     return false;
                 }
             } 
@@ -360,7 +376,10 @@ public class Checkers {
                     if(board[fromRow+1][fromCol+1].equals(white_small) ||board[fromRow+1][fromCol+1].equals(white_k) ){
                         board[fromRow+1][fromCol+1]=" ";
                         return true;
-                }   else{
+                }  else if(board[fromRow+1][fromCol+1].equals(black_k) ||board[fromRow+1][fromCol+1].equals(black_small) ){
+                    return true;
+                } 
+                    else{
                     return false;
                 }
             }
@@ -382,7 +401,10 @@ public class Checkers {
                     if(board[fromRow+1][fromCol+1].equals(black_small) ||board[fromRow+1][fromCol+1].equals(black_k) ){
                         board[fromRow+1][fromCol+1]=" ";
                         return true;
-           }       else{
+           }       else if(board[fromRow+1][fromCol+1].equals(white_k) ||board[fromRow+1][fromCol+1].equals(white_small) ){
+                        return true;
+           }
+                    else{
                     return false;
             }
         }
@@ -391,7 +413,10 @@ public class Checkers {
                         board[fromRow+1][fromCol-1]=" ";
                         return true;
 
-                }   else{
+                }   else if(board[fromRow+1][fromCol-1].equals(white_small) ||board[fromRow+1][fromCol-1].equals(white_k) ){
+                    return true;
+                }
+                    else{
                     return false;
                 }
             } 
@@ -408,23 +433,32 @@ public class Checkers {
                 if(board[fromRow+1][fromCol-1].equals(black_small) ||board[fromRow+1][fromCol-1].equals(black_k) ){
                     board[fromRow+1][fromCol-1]=" ";
                     return true;
-            }   else{
-                return false;
+            }   else if(board[fromRow+1][fromCol-1].equals(white_small) ||board[fromRow+1][fromCol-1].equals(white_k) ){
+                    return true;
+            }
+                else{
+                    return false;
             }
         }   
             if(valid_x==2 && valid_y==2 ){
                 if(board[fromRow+1][fromCol+1].equals(black_small) ||board[fromRow+1][fromCol+1].equals(black_k) ){
                     board[fromRow+1][fromCol+1]=" ";
                     return true;
-            }   else{
-                return false;
+            }   else if(board[fromRow+1][fromCol+1].equals(white_k) ||board[fromRow+1][fromCol+1].equals(white_small) ){
+                return true;
+            }
+                else{
+                    return false;
             }
         }
             if(valid_x==-2 && valid_y==+2 ){
                 if(board[fromRow-1][fromCol+1].equals(black_small) ||board[fromRow-1][fromCol+1].equals(black_k) ){
                     board[fromRow-1][fromCol+1]=" ";
                     return true;
-            }   else{
+            }   else if(board[fromRow-1][fromCol+1].equals(white_small) ||board[fromRow-1][fromCol+1].equals(white_k) ){
+                return true;
+            }
+                else{
                 return false;
             }
         } 
@@ -432,8 +466,11 @@ public class Checkers {
                 if(board[fromRow-1][fromCol-1].equals(black_small) ||board[fromRow-1][fromCol-1].equals(black_k) ){
                     board[fromRow-1][fromCol-1]=" ";
                     return true;
-            }   else{
-                return false;
+            }   else if(board[fromRow-1][fromCol-1].equals(white_small) ||board[fromRow-1][fromCol-1].equals(white_k) ){
+                return true;
+            }
+                else{
+                    return false;
             }
         }
 
