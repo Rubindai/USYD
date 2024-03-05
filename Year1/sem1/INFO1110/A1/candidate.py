@@ -1,5 +1,5 @@
 from exam import Exam
-impor os
+import os
 import sys
 
 
