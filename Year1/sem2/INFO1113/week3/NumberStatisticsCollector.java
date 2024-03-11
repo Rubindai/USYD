@@ -43,7 +43,7 @@ public class NumberStatisticsCollector {
             }
         }
         double avg=sum/n;
-        System.out.format("Sum: %.2f",sum);
+        System.out.printf("Sum: %.2f\n",sum);
         System.out.println();
         System.out.format("Average: %.2f",avg);
         System.out.println();

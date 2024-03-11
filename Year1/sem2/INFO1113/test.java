@@ -1,7 +1,8 @@
 public class test {
     public static void main(String[] args) {
-        int a =3;
-        System.exit(0);
+      String[] a=null;
+      int b=a.length;
+      System.out.println(b);
 
         }
     }

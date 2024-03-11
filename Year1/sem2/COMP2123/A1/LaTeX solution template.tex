@@ -1,0 +1,77 @@
+\documentclass[12pt]{article}
+
+% UPDATE THESE PARAMETERS
+
+\newcommand{\sid}{530596462}
+\newcommand{\assignment}{1}
+
+
+\NeedsTeXFormat{LaTeX2e}
+\usepackage[osf]{mathpazo}
+\usepackage[svgnames]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,mathtools}
+\usepackage{hyperref,url}
+\usepackage[margin=2.7cm,a4paper]{geometry}
+\usepackage{tasks}
+\usepackage{xstring}
+\usepackage[tikz]{mdframed}
+\usepackage{environ}
+\usepackage{etoolbox}
+\usepackage{fourier-orns}
+\usepackage{kvoptions}
+\usepackage[]{units}
+\usepackage{url}%
+\usepackage[normal]{subfigure}
+
+% math config
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\set{\{}{\}}
+
+
+% headers
+
+\usepackage{fancyhdr}
+\addtolength{\headheight}{2.5pt}
+\pagestyle{fancy}
+\fancyhead{} 
+\fancyhead[L]{\sc comp2823} % Replace with comp2123 or comp2823
+\renewcommand{\headrulewidth}{0.75pt}
+
+% update these headers
+\fancyhead[C]{\sc SID: \sid}
+\fancyhead[R]{Assignment \assignment}
+
+
+% pseudo-code typesetting configuration
+\usepackage[tikz]{mdframed}
+\usepackage[noend]{algpseudocode}
+
+\newenvironment{pseudocode}
+{
+  \mdframed
+  \algorithmic[1]
+}
+{
+  \endalgorithmic
+  \endmdframed
+}
+
+% solution 
+
+\newcommand{\solution}[1]{\noindent \textbf{Solution #1.}}
+
+
+\begin{document}
+
+\solution{1}  This algroithem traverse through the array twice to find a match between two numbers. 
+The upperbound of the first loop is n the upperbound the secound iteration is n as well, so the upperbound running time of the algorithem is $O(n^2)$
+
+
+
+The correctness is obvious and the complexity analysis is elusive.
+
+
+\end{document}
