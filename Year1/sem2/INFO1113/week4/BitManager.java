@@ -1,3 +1,5 @@
+
+
 import java.util.*;
 
 public class BitManager {
@@ -6,11 +8,11 @@ public class BitManager {
     
     
     public static boolean is_valid_index(int index){
-        if(index<len_of_ary){
+        if(index<len_of_ary && index>=0){
             return true;
         }
         else{
-            System.out.printf("Invalid index: Index out of bounds or not a number.\n");
+            System.out.printf("Invalid index: Index out of bounds or not a number.\n\n");
             return false;
         }
     }
@@ -58,7 +60,7 @@ public class BitManager {
         String naughty="naughty";
         String good="good";
         
-        System.out.printf(" Welcome to Bitlandia!\n");
+        System.out.printf("Welcome to Bitlandia!\n");
         System.out.printf("Initial bit configuration: ") ;
         Scanner input_obj=new Scanner(System.in);
         
@@ -70,10 +72,11 @@ public class BitManager {
         System.out.printf("\n");
         System.out.printf("\n");
 
-        System.out.printf("Please enter a command (check <string>, change <index> <state>, or exit): \n\n");
+        System.out.printf("Please enter a command (check <string>, change <index> <state>, or exit):\n\n");
         while(true){
             while (true){
         String user_input=input_obj.nextLine();
+        // System.out.println(user_input);
         String[] processed_user_input=user_input.split(" ");
         if(processed_user_input[0].equals(exit0)){
             System.out.printf("Exiting program. Goodbye!\n");
@@ -81,17 +84,17 @@ public class BitManager {
         }
         if(processed_user_input[0].equals(change0)){
             if(!processed_user_input[2].equals(good) && !processed_user_input[2].equals(naughty)){
-                System.err.print("Invalid argument: For check command, specify 'naughty' or 'nice'.\n\n");
+                System.err.print("Invalid argument: For change command, specify 'naughty' or 'good'.\n\n");
                 break;
             }
             int index=Integer.parseInt(processed_user_input[1]);
             if(is_valid_index(index)){
                 if(processed_user_input[2].equals(good)){
-                    init_array.set(index,'0');
-                    System.out.printf("Bit at index %d marked as good\n\n",index);
+                    init_array.set(len_of_ary-1-index,'0');
+                    System.out.printf("Bit at index %d marked as Good\n\n",index);
                 }
                 if(processed_user_input[2].equals(naughty)){
-                    init_array.set(index,'1');
+                    init_array.set(len_of_ary-1-index,'1');
                     System.out.printf("Bit at index %d marked as Naughty\n\n",index);
                 }
             }
