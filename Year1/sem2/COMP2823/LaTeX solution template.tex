@@ -2,7 +2,7 @@
 
 % UPDATE THESE PARAMETERS
 
-\newcommand{\sid}{530596462}
+\newcommand{\sid}{123456789}
 \newcommand{\assignment}{1}
 
 
@@ -37,7 +37,7 @@
 \addtolength{\headheight}{2.5pt}
 \pagestyle{fancy}
 \fancyhead{} 
-\fancyhead[L]{\sc comp2823} % Replace with comp2123 or comp2823
+\fancyhead[L]{\sc comp2123 - comp9123} % Replace with comp2123 or comp2823
 \renewcommand{\headrulewidth}{0.75pt}
 
 % update these headers
@@ -66,10 +66,20 @@
 
 \begin{document}
 
-\solution{1}  This algroithem traverse through the array twice to find a match between two numbers. 
-The upperbound of the first loop is n the upperbound the secound iteration is n as well, so the upperbound running time of the algorithem is $O(n^2)$
+\solution{1}  We solve the problem using Fibonacci numbers:
 
+\begin{pseudocode}
+    \Function{fib}{$n$}:
+    \State \# input: int $n > 0$
+    \State \# output: fibonacci($n$)
 
+    \If{$n > 1$}
+        \State \Return $1$
+    \Else
+        \State \Return \textsc{fib}($n-1$) + \textsc{fib}($n-2$)
+    \EndIf
+    \EndFunction
+\end{pseudocode}
 
 The correctness is obvious and the complexity analysis is elusive.
 
