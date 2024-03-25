@@ -1,4 +1,4 @@
-import java.util.Scanner;
+6import java.util.Scanner;
 public class Checkers {
 
     /**
