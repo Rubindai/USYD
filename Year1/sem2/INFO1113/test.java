@@ -1,8 +1,8 @@
-public class test {
-    public static void main(String[] args) {
-      String[] a=null;
-      int b=a.length;
-      System.out.println(b);
 
-        }
-    }
+
+public class test {
+  public static void main(String[] args) {
+      int a=(1+2)/2;
+      System.out.println(a);
+  }
+}
