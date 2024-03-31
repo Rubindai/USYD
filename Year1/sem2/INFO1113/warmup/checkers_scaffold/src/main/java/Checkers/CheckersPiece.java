@@ -59,7 +59,7 @@ public class CheckersPiece {
 				if(c1.getPiece()==null){
 					avlmoves.add(c1);
 				}
-				else if(c1.getPiece().getColour()=='w'){
+				else if(c1.getPiece().getColour()=='w' ||c1.getPiece().getColour()=='b'){
 					c1=board[x_board-2][y_board+2];
 					if(c1.getPiece()==null){
 						
@@ -74,7 +74,7 @@ public class CheckersPiece {
 				if(c1.getPiece()==null){
 					avlmoves.add(c1);
 				}
-				else if(c1.getPiece().getColour()=='w'){
+				else if(c1.getPiece().getColour()=='w'||c1.getPiece().getColour()=='b'){
 					c1=board[x_board-2][y_board-2];
 					if(c1.getPiece()==null){
 						
@@ -91,7 +91,7 @@ public class CheckersPiece {
 					if(c1.getPiece()==null){
 						avlmoves.add(c1);
 					}
-					else if(c1.getPiece().getColour()=='w'){
+					else if(c1.getPiece().getColour()=='w'||c1.getPiece().getColour()=='b'){
 						c1=board[x_board+2][y_board-2];
 						if(c1.getPiece()==null){
 							
@@ -106,7 +106,7 @@ public class CheckersPiece {
 					if(c1.getPiece()==null){
 						avlmoves.add(c1);
 					}
-					else if(c1.getPiece().getColour()=='w'){
+					else if(c1.getPiece().getColour()=='w'||c1.getPiece().getColour()=='b'){
 						c1=board[x_board+2][y_board+2];
 						if(c1.getPiece()==null){
 							
@@ -125,9 +125,10 @@ public class CheckersPiece {
 			try{
 			c1=board[x_board+1][y_board-1];
 			if(c1.getPiece()==null){
+
 				avlmoves.add(c1);
 			}
-			else if(c1.getPiece().getColour()=='b'){
+			else if(c1.getPiece().getColour()=='b'||c1.getPiece().getColour()=='w'){
 				c1=board[x_board+2][y_board-2];
 				if(c1.getPiece()==null){
 					
@@ -143,7 +144,7 @@ public class CheckersPiece {
 			if(c1.getPiece()==null){
 				avlmoves.add(c1);
 			}
-			else if(c1.getPiece().getColour()=='b'){
+			else if(c1.getPiece().getColour()=='b'||c1.getPiece().getColour()=='w'){
 				c1=board[x_board+2][y_board+2];
 				if(c1.getPiece()==null){
 					avlmoves.add(c1);
@@ -159,7 +160,7 @@ public class CheckersPiece {
 				if(c1.getPiece()==null){
 					avlmoves.add(c1);
 				}
-				else if(c1.getPiece().getColour()=='b'){
+				else if(c1.getPiece().getColour()=='b'||c1.getPiece().getColour()=='w'){
 					c1=board[x_board-2][y_board-2];
 					if(c1.getPiece()==null){
 						
@@ -174,9 +175,12 @@ public class CheckersPiece {
 				if(c1.getPiece()==null){
 					avlmoves.add(c1);
 				}
-				else if(c1.getPiece().getColour()=='b'){
+				else if(c1.getPiece().getColour()=='b'||c1.getPiece().getColour()=='w'){
 					c1=board[x_board-2][y_board+2];
 					if(c1.getPiece()==null){
+						// System.out.printl
+						
+						
 						
 						avlmoves.add(c1);
 					}

@@ -150,6 +150,7 @@ public class App extends PApplet {
         //Check if the user clicked on a piece which is theirs - make sure only whoever's current turn it is, can click on pieces
 		int x = e.getX();
 		int y = e.getY();
+        
 		if (x < 0 || x >= App.WIDTH || y < 0 || y >= App.HEIGHT) return;
 		
 		Cell clicked = board[y/App.CELLSIZE][x/App.CELLSIZE];
@@ -158,11 +159,14 @@ public class App extends PApplet {
             // if it is already selected
 			if (clicked.getPiece() == currentSelected) {
 				currentSelected = null;
+                selectedCells=null;
 			} else {
             // select it
 				currentSelected = clicked.getPiece();
 			}
-            if (clicked.getPiece() != null && clicked.getPiece().getColour() == currentPlayer)if (clicked.getPiece() != null && clicked.getPiece().getColour() == currentPlayer){
+            // System.out.println(currentSelected);
+            if (currentSelected != null && clicked.getPiece().getColour() == currentPlayer){
+                // System.out.println(1);
                 selectedCells=clicked.getPiece().getAvailableMoves(currentSelected, board);
 
                
@@ -196,9 +200,13 @@ public class App extends PApplet {
 
                     }
                     try{
+                        if(board[(x_current+x_togo)/2][(y_current+y_togo)/2].getPiece().getColour()==currentPlayer){
+                            p1.king(board);
+                        }
+                        else{
                         piecesInPlay.get(board[(x_current+x_togo)/2][(y_current+y_togo)/2].getPiece().getColour()).remove(board[(x_current+x_togo)/2][(y_current+y_togo)/2].getPiece());
                         board[(x_current+x_togo)/2][(y_current+y_togo)/2].setPiece(null);
-                        p1.king(board);
+                        p1.king(board);}
                     } catch(Exception i){
                         ;
                     }
