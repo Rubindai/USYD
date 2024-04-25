@@ -1,12 +1,27 @@
-
-
 public class test {
-  public static void main(String[] args) {
-    char a='1';
-    int b;
-    b=a;
-    System.out.println(b);
-      // int a=(1+2)/2;
-      // System.out.println(a);
-  }
+	
+	public static int count(int[] array, int element) {
+        int i;
+        // System.out.println(i);
+		if (array==null){
+            i=1;
+            
+		} else {
+            i=1;
+        }
+		for(int a:array){
+            if(element==a){
+                i++;
+            }
+        }
+        return i;
+	}
+	
+	public static void main(String[] args) {
+        int i;
+        System.out.println(i);
+		
+		
+	}
+	
 }

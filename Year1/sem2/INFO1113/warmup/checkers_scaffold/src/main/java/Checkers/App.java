@@ -84,7 +84,7 @@ public class App extends PApplet {
     
     // Default constructor
     public App() {
-        
+        System.out.print(1);
     }
 
 
