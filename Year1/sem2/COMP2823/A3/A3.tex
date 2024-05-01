@@ -1,0 +1,150 @@
+\documentclass[12pt]{article}
+
+% UPDATE THESE PARAMETERS
+
+\newcommand{\sid}{530596462}
+\newcommand{\assignment}{3}
+
+
+\NeedsTeXFormat{LaTeX2e}
+\usepackage[osf]{mathpazo}
+\usepackage[svgnames]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,mathtools}
+\usepackage{hyperref,url}
+\usepackage[margin=2.7cm,a4paper]{geometry}
+\usepackage{tasks}
+\usepackage{xstring}
+\usepackage[tikz]{mdframed}
+\usepackage{environ}
+\usepackage{etoolbox}
+\usepackage{fourier-orns}
+\usepackage{kvoptions}
+\usepackage[]{units}
+\usepackage{url}%
+\usepackage[normal]{subfigure}
+
+% math config
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\set{\{}{\}}
+
+
+% headers
+
+\usepackage{fancyhdr}
+\addtolength{\headheight}{2.5pt}
+\pagestyle{fancy}
+\fancyhead{} 
+\fancyhead[L]{\sc comp2823} % Replace with comp2123 or comp2823
+\renewcommand{\headrulewidth}{0.75pt}
+
+% update these headers
+\fancyhead[C]{\sc SID: \sid}
+\fancyhead[R]{Assignment \assignment}
+
+
+% pseudo-code typesetting configuration
+\usepackage[tikz]{mdframed}
+\usepackage[noend]{algpseudocode}
+
+\newenvironment{pseudocode}
+{
+  \mdframed
+  \algorithmic[1]
+}
+{
+  \endalgorithmic
+  \endmdframed
+}
+
+% solution 
+
+\newcommand{\solution}[1]{\noindent \textbf{Solution #1.}}
+
+
+\begin{document}
+
+\solution{1} 
+
+a) 
+This algorithm is wrong and can be disproved by the counterexample, for $M = \{1,2,7,-1,-2,-7\}$, the $WRONGALGORITHM(M)$ will return false because it can't find a valid combination of where $M \neq \varnothing $ and there exist $ M' \subseteq M $ s.t. $x$ = sum of integers in M'. But  $M = \{1,2,7,-1,-2,-7\}$ can have a valid combination where  $M_1 = \{1,-1,-2,2\}$ and  $M_2 = \{7,-7\}$. The algorithm should return true and find the valid combination but it didn't, therefore the algorithm is wrong.
+
+b)
+This algorithm is correct. This algorithm will always try to find a permutation of M  and it will keep adding the next integer of the permutation to M1 if sum of integers in $M$1 < sum of integers in $M/2$. If sum of integers in $M$1 = sum of integers in $M/2$ then it will return true otherwise it will continue to try new permutations until there are no permutations left to try.  This algorithm is guaranteed to try all the permutations. If there exist two multisets
+M1 and M2 such that the total sum of all integers in M1 equals the total sum of
+all integers in M2, then sum of integers in $M$1 = sum of integers in $M$2, since sum of integers in $M$1 + sum of integers in $M$2 = sum of integers in $M$, we have sum of integers in $M$1 = sum of integers in $M/2$. So if sum of integers in $M$1 = sum of integers in $M/2$ for any one of the permutations, then such multisets exist, if we can't find sum of integers in $M$1 = sum of integers in $M/2$ for every permutation, such multisets don't exist. This algorithm will return true if sum of integers in $M$1 = sum of integers in $ M/2$ and will return false if after trying every permutation, it cannot find any case where sum of integers in $M$1 = sum of integers in $M/2$.  Therefore this algorithm is correct.
+
+c)
+This algorithm is wrong and can be disproved by the counterexample,  for $M = \{5,3,1,-1,-3,-5\}$, this algorithm will return false, after the execution of this algorithm, it will have $M$1$ = \{5\}$ and  $M_2 = \{3,1,-1,-3,-5\}$ this will cause the algorithm to return false. But the algorithm should return true because it can split the  multisets in this way:
+ $M$1$ = \{5,-5\}$ and $M$2$ = \{1,-1,3,-3\}$. Therefore the algorithm is wrong.
+
+\solution{2} 
+
+a)
+This algorithm first iterates through the double-linked list and, we add 2 pointers Pointer-start and Pointer-end of each double-linked list at the starting position and the ending position respectively. As the double-linked list is sorted (Assuming non-decreasing), the value Pointer-end contains is always going to be the minimum value of the double-linked list and the value Pointer-end contains is always going to be the maximum value of the double-linked list. Then it stores the value Pointer-start contains and the reference of the corresponding double-linked list together in a tuple in an array called MAX and it stores the value Pointer-end contains and the reference of the corresponding double-linked list together in a tuple in an array called MIN. So MAX contains the maximum value of every double-linked list and their corresponding double-linked list, and MIN contains the minimum value of every double-linked list and their corresponding double-linked list.
+
+Then it creates two heaps called MAX-heap and MIN-heap, MAX-heap is based on the array MAX and is a max-heap (the root always holds the maximum value). MIN-heap is based on the array MIN and is a min-heap (the root always holds the minimum value). These two heaps are sorted based on the first index of every tuple stored in the 2 arrays. (sort based on the value).
+
+When performing REMOVE-MIN, the MIN-heap removes the root and accesses the double-linked list the removed root stores (the second element of the tuple), moves the Pointer-start to the end of the array by one (we will perform a check operation here that will be mentioned later, to see if we already traverse every element of the list) and stores the value Pointer-start stores and the references of the double linked list in a tuple and add it back it the MIN-heap if the check operation return true . If the check operation returns false, then we remove the element contained in the MAX-heap that contains the reference to that double-linked list. Then the MIN-heap reconstruct to maintain the min-heap property.
+
+When performing REMOVE-MAX, the MAX-heap removes the root and accesses the double-linked list the removed root stores (the second element of the tuple), moves the Pointer-end to the beginning of the array by one (we will perform a check operation here that will be mentioned later, to see if we already traverse every element of the list) and stores the value Pointer-end stores and the references of the double linked list in a tuple and add it back it the MAX-heap if the check operation return true . If the check operation returns false, then we remove the element contained in the MIN-heap that contains the reference to that double-linked list. Then the MAX-heap reconstruct to maintain the MAX-heap property.
+
+check operation: On every iteration after moving the start and end pointer, check whether the index of Pointer-start and the index of Pointer-end to see if the index of Pointer-start is bigger than the index of Pointer-end or if the index is out of bound. If it is true then we mark the double-linked list as finished and return false . If it is false then return true and continue the aforementioned process.
+
+In this process, the element of the double-linked list is not modified or deleted.
+
+b) The operations are correct because the double-linked list is sorted (Assuming non-decreasing). So the value contained in the Pointer-start has to be the smallest between Pointer-start and Pointer-end. The value contained in the Pointer-end has to be the biggest value between Pointer-start and Pointer-end. So initially the MIN array will contain all minimum values of all double-linked lists and the MAX array will contain all minimum values of all double-linked lists. 
+
+The MIN-heap will always have the min-heap property. When we perform Remove-min, the minimum value will be removed from the heap and we will update the heap with the next available minimum value of the corresponding double-linked list. The reason we can do that is because 
+
+1.We can locate the corresponding double-linked list through the reference we stored in the node.
+
+2. Pointer-start moves towards the end of that double-linked list by one and that has to be the next available minimum value because the list is sorted. 
+
+3. The check operation will guarantee the list hasn't been traversed already and MIN-heap and MAX-heap won't contain elements with reference to that double-linked list that have already been traversed. That is because Pointer-start and Pointer-end will only move once at most per turn, if the index Pointer-start holds is bigger than Pointer-end or the index is out of bound, that would mean we already traversed through the array.  When the two pointers clash together, the minimum and maximum values of the double-linked list are the same. So when we perform Remove-Min, the MAX-heap still contains that value so we will delete it if the array has been traversed once. If the check operation return true we will reconstruct the heap to maintain heap-property because we introduce a new element to the heap.
+
+The MAX-heap will always have the max-heap property. When we perform Remove-max, the maximum value will be removed from the heap and we will update the heap with the next available maximum value of the corresponding double-linked list. The reason we can do that is because 
+
+1.We can locate the corresponding double-linked list through the reference we stored in the node.
+
+2. Pointer-end moves towards the beginning of that double-linked list by one and that has to be the next available maximum value because the list is sorted.
+
+3. The check operation will guarantee the list hasn't been traversed already MIN-heap and MAX-heap won't contain elements with reference to that double-linked list that have already been traversed. That is because Pointer-start and Pointer-end will only move once at most per turn, if the index Pointer-start holds is bigger than Pointer-end or the index is out of bound, that would mean we already traversed through the array .  When the two pointers clash together, the minimum and maximum values of the double-linked list are the same. So when we perform Remove-Max, the MIN-heap still contains that value so we need to delete it if the array has been traversed once.  If the check operation return true we will reconstruct the heap to maintain heap-property because we introduce a new element to the heap.
+
+
+The aforementioned algorithm holds for every iteration, so the algorithm is correct.
+
+c) When initializing the algorithm, we traverse through the double-linked list, because the double-linked list is sorted, getting the minimum and maximum value is constant time. The array is a fixed-length array with size of k, adding things in an array is constant time as well. So for each double-linked list, we need $O(1)$ to initialize. We have a total of k double-linked list, so it will take $kO(1)$ times, which is $O(K)$. Initializing of two heaps causes $2O(k)$ time. So the initialization process causes a total of $O(k)$ time.
+
+Remove-min and Remove-max operations: remove-min and remove-max caused $O(logK)$ time, when adding something to the heap it caused $O(logK)$ time as well. In total Remove-min and Remove-max caused $O(logK)$ time. 
+The check operation is $O(1)$. So the total time for Remove-min and Remove-max operations is $O(logK)$.
+
+
+
+
+\solution{3} 
+
+a) Create an AVL tree for main dishes using main dish name as key and its price as the value. Create another AVL tree for side dishes using the side dish name as the key and its price as the value. When performing addNewMainDish, addNewSideDish, removeMainDish, removeSideDish just add/remove the corresponding item to the AVL tree. And we create one array of size 14 to store the frequency of the price of main dish The array is initialized with 0.  We add the item's price frequency by one to the corresponding array when the item's price we insert is smaller than 15 and we decrease the value by one if the price of the item we removed can be found in the array. To under this better,if the main dish has 3 dishes which have prices of 13,13 and 10. Then at index 12, we put the value 2 because there are 2 items of price 13 and in index 9 we put the value 1 because there is 1 item of price 10. This is just to illustrate the result, it should be computed when inserting and deleting items from the AVL. The actual price and the index differ by one because the array index starts from 0. We only need the size to be 14 because we only need to find price combinations that are smaller or equal to 15. Using the same logic, create one array of size 14 to store the frequency of the price of side dish. When performing countCombinations, we use a nested loop run to go through the side dish array while going through the main dish array, so we find every possible combination of main dish and side dish in those two arrays . And we keep a counter called count, if the sum of the index of these 2 arrays at one index is smaller or equal to 13. The counter will increment by the multiplication of the two values the index holds. The counter variable is initialized at 0. Then we return count after the iteration is finished.
+
+
+
+
+b) 
+This algorithm is correct because when performing addNewMainDish , \\
+addNewSideDish ,removeMainDish , removeSideDish , item will just be added and removed from the AVL tree, the tree will be maintained after every operation. For countCombinations, we build 2 arrays storing the frequency of the price of main dish and the side dish when we are building the AVL tree.The size only need to be 14 because we only need to count the combination of main and side dishes which are smaller or equal to 15. Any price that is bigger than 15 would fail that property so we don't need to consider it. We can't have a price that is equal to 15, because the other dish's price has to be 0 to fulfill the property. But 0 is not a valid price as the price should be positive integers. So we only need to count the number of times the price appears from 1 to 14, which only needs an array with size 14. Iterating through those 2 arrays can find the all combinations of prices and we can check at which index so that the price for main and side dishes can be smaller or equal to 15, and the total number of combinations will be the multiplication of the value in the index fulfilling that property.
+
+
+c) 
+The running time for addNewMainDish , addNewSideDish ,removeMainDish , removeSideDish is $O(logn)$ as the add and remove operation in an AVL tree costs $O(logn)$. When deleting and inserting nodes we add nodes that met the requirements to an array of fixed length, which will be $O(1)$.   The space for this operation takes $O(n)$ as there are a total number of n dishes and the total size of 2 AVL trees is n.
+
+For countCombinations, the process of building the arrays cost O(1) time because they are fixed-length arrays. We need a nested loop to iterate through those two arrays which will cost $O(14*14)$ time, which is also$ O(1)$ time. So for this operation, the running time is $O(1)$. The size of the two arrays is $O(28)$ which is $O(1)$.
+
+Therefore the total space of this data structure is O(n).
+
+
+
+
+
+\end{document}
