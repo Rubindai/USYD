@@ -1,0 +1,43 @@
+     //radius 30
+            if ( curr_radius < expected_radius ) {
+                curr_radius += expected_radius/6;
+                app.noStroke();
+
+                if (curr_radius < expected_radius) {
+                    app.noStroke();
+                    app.fill(255, 0, 0);
+                    app.ellipse(cord_x, cord_y, curr_radius * 10, curr_radius * 10);
+
+                } else {
+
+                    app.noStroke();
+                    app.fill(255, 0, 0);
+                    app.ellipse(cord_x, cord_y, 30, 30);
+
+                }
+
+                if (curr_radius < expected_radius*0.5) {
+                    app.fill(255, 165, 0);
+                    app.ellipse(cord_x, cord_y, curr_radius * 10, curr_radius * 10);
+
+                } else {
+                    app.fill(255, 165, 0);
+                    app.ellipse(cord_x, cord_y, 15, 15);
+
+                }
+
+                if (curr_radius < expected_radius*0.2) {
+                    app.fill(255, 255, 0);
+                    app.ellipse(cord_x, cord_y, curr_radius * 10, curr_radius * 10);
+
+                } else {
+                    app.fill(255, 255, 0);
+                    app.ellipse(cord_x, cord_y, 6, 6);
+
+                }
+            }
+            else{
+                status=true;
+            }
+
+   
