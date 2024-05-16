@@ -43,32 +43,34 @@ public class App extends PApplet {
     private JSONArray jsonArray;
     private JSONObject jsonObj;
     private String layout;
-    private String background;
+    public String background;
     private String foregroundColour;
     private String trees;
     private long start;
     private long finish;
-    private long duration;
+    private long start2;
+    private long finish2;
 
-    private ArrayList<float[]> listOfPointsTerrian = new ArrayList<float[]>();
-    private ArrayList<float[]> listOfPointsTree = new ArrayList<float[]>();
-    private ArrayList<Tankpiece> listOfTankpieces = new ArrayList<Tankpiece>();
+    public ArrayList<float[]> listOfPointsTerrain = new ArrayList<float[]>();
+    public ArrayList<float[]> listOfPointsTree = new ArrayList<float[]>();
+    public ArrayList<Tankpiece> listOfTankpieces = new ArrayList<Tankpiece>();
     private ArrayList<Tankpiece> listOfTankpiecesFinal = new ArrayList<Tankpiece>();
-    private ArrayList<Projectile> listOfProjectiles = new ArrayList<Projectile>();
+    public ArrayList<Projectile> listOfProjectiles = new ArrayList<Projectile>();
     public ArrayList<Explosion> listOfExplosions = new ArrayList<Explosion>();
-    private Tankpiece currentPlayer;
-    private boolean turretMovLeft;
-    private boolean turretMovRight;
-    private boolean tankMoveLeft;
-    private boolean tankMoveRight;
-    private boolean wPress;
-    private boolean sPress;
-    private boolean init;
+    public Tankpiece currentPlayer;
+    public boolean turretMovLeft;
+    public boolean turretMovRight;
+    public boolean tankMoveLeft;
+    public boolean tankMoveRight;
+    public boolean wPress;
+    public boolean sPress;
+    public boolean init;
     private boolean ifExecute = true;
-    private boolean gameEnd;
+    public boolean gameEnd;
+    private boolean ifExecute2 = true;
 
-    Wind wind;
-    private int level = 0;
+    public Wind wind;
+    public int level = 0;
     private int total_level;
     private int currentPlayerIndex;
 
@@ -79,26 +81,27 @@ public class App extends PApplet {
 
     public App() {
         this.configPath = "config.json";
+
     }
 
     /**
-     * Initialise the setting of the window size.
+     * Initialize the setting of the window size.
      */
     @Override
     public void settings() {
         size(WIDTH, HEIGHT);
+
     }
 
     /**
-     * Load all resources such as images. Initialise the elements such as the player
+     * Load all resources such as images. Initialize the elements such as the player
      * and map elements.
      */
     @Override
     public void setup() {
         frameRate(FPS);
+
         reset();
-        init = true;
-        
 
         // See PApplet javadoc:
         // loadJSONObject(configPath)
@@ -106,6 +109,9 @@ public class App extends PApplet {
         // " "));
     }
 
+    /**
+     * Resetting between levels and reset game when game ends
+     */
     public void reset() {
         img = null;
         imgTree = null;
@@ -115,11 +121,11 @@ public class App extends PApplet {
         background = null;
         foregroundColour = null;
         trees = null;
-        listOfPointsTerrian = new ArrayList<float[]>();
+        listOfPointsTerrain = new ArrayList<float[]>();
         listOfPointsTree = new ArrayList<float[]>();
         listOfProjectiles = new ArrayList<Projectile>();
         listOfExplosions = new ArrayList<Explosion>();
-        // list_of_Tankpieces=new ArrayList<Tankpiece>();
+
         currentPlayer = null;
         jsonObj = loadJSONObject(configPath);
         currentPlayerIndex = 0;
@@ -128,7 +134,7 @@ public class App extends PApplet {
         total_level = jsonArray.size();
 
         layout = jsonArray.getJSONObject(level).getString("layout");
-        // System.out.println(layout);
+
         background = jsonArray.getJSONObject(level).getString("background");
         foregroundColour = jsonArray.getJSONObject(level).getString("foreground-colour");
         trees = jsonArray.getJSONObject(level).getString("trees");
@@ -157,14 +163,19 @@ public class App extends PApplet {
             scan3 = new Scanner(fIn);
 
         } catch (FileNotFoundException e) {
-            System.out.println("ERROR ON FILE PARSING");
+            System.err.println("ERROR ON FILE PARSING");
+
         }
-        terrianSetup(scan);
+        terrainSetup(scan);
+
         treeSetup(scan2);
+
         tankSetup(scan3);
+
         currentPlayer = listOfTankpieces.get(0);
         wind = new Wind(imgWindLeft, imgWindRight);
         ui = new UI(listOfTankpiecesFinal);
+        ifExecute2 = true;
 
     }
 
@@ -173,45 +184,38 @@ public class App extends PApplet {
      */
     @Override
     public void keyPressed(KeyEvent event) {
-        if (key == CODED && !gameEnd) {
-            if (keyCode == UP && !gameEnd &&!currentPlayer.tankFall) {
-                System.out.println("UP"); // turrent move +-3 rand
-                turretMovLeft = true;
 
-            }
-            if (keyCode == DOWN && !gameEnd&&!currentPlayer.tankFall) {
-                System.out.println("DOWN");
-                turretMovRight = true;
+        if (keyCode == UP && !gameEnd && !currentPlayer.tankFall) {
+            System.out.println("UP"); // turret move +-3 rand
+            turretMovLeft = true;
 
-            }
-            if (keyCode == LEFT && !gameEnd&&!currentPlayer.tankFall) {
-                System.out.println("LEFT");// tank move +-60 pixel
-                tankMoveLeft = true;
+        }
+        if (keyCode == DOWN && !gameEnd && !currentPlayer.tankFall) {
+            System.out.println("DOWN");
+            turretMovRight = true;
 
-            }
-            if (keyCode == RIGHT && !gameEnd&&!currentPlayer.tankFall) {
-                System.out.println("RIGHT");
-                tankMoveRight = true;
+        }
+        if (keyCode == LEFT && !gameEnd && !currentPlayer.tankFall) {
+            System.out.println("LEFT");// tank move +-60 pixel
+            tankMoveLeft = true;
 
-            }
+        }
+        if (keyCode == RIGHT && !gameEnd && !currentPlayer.tankFall) {
+            System.out.println("RIGHT");
+            tankMoveRight = true;
 
         }
 
-        if (key == ' ' && !gameEnd&&!currentPlayer.tankFall) {
+        if (keyCode == 32 && !gameEnd && !currentPlayer.tankFall) {
 
             if (ifExecute) {
                 System.out.println("Space");// fire
 
-                // if(list_of_Tankpieces.size()>0){
-                // list_of_Tankpieces_final.add(list_of_Tankpieces.get(0));
-                // list_of_Tankpieces.remove(0);
-                // System.out.println(list_of_Tankpieces_final.get(0).get_call_sign());
-
                 if (currentPlayer.getTurretPos()[0] >= 0) {
-                    if (listOfPointsTerrian.get((int) (currentPlayer.getTurretPos()[0]))[1] > currentPlayer
+                    if (listOfPointsTerrain.get((int) (currentPlayer.getTurretPos()[0]))[1] > currentPlayer
                             .getTurretPos()[1]) {
                         // EDGE CASE ATTENTION
-                        Projectile p = new Projectile(currentPlayer, wind, listOfPointsTerrian,
+                        Projectile p = new Projectile(currentPlayer, wind, listOfPointsTerrain,
                                 currentPlayer.getProjSize());
                         listOfProjectiles.add(p);
                         wind.randomTurn();
@@ -233,28 +237,27 @@ public class App extends PApplet {
                 ifExecute = true;
             }
 
-            // }
         }
-        if (Character.toUpperCase(key) == 'S' && !gameEnd&&!currentPlayer.tankFall) {
+        if (Character.toUpperCase(keyCode) == 'S' && !gameEnd && !currentPlayer.tankFall) {
             System.out.println("S");
             sPress = true;
 
         }
-        if (Character.toUpperCase(key) == 'W' && !gameEnd&&!currentPlayer.tankFall) {
+        if (Character.toUpperCase(keyCode) == 'W' && !gameEnd && !currentPlayer.tankFall) {
             System.out.println("W");
             wPress = true;
 
         }
-        if (Character.toUpperCase(key) == 'F' && !gameEnd&&!currentPlayer.tankFall) {
+        if (Character.toUpperCase(keyCode) == 'F' && !gameEnd && !currentPlayer.tankFall) {
             if (currentPlayer.getPoint() >= 10) {
                 currentPlayer.setPoint(-10, currentPlayer);
-                currentPlayer.addFuel(100);
+                currentPlayer.addFuel(200);
             }
 
         }
-        if (Character.toUpperCase(key) == 'R'&&!currentPlayer.tankFall) {
+        if (Character.toUpperCase(keyCode) == 'R' && !currentPlayer.tankFall) {
             if (!gameEnd) {
-                if (currentPlayer.getPoint() >= 20) {
+                if (currentPlayer.getPoint() >= 20&&currentPlayer.hp<100) {
                     currentPlayer.setPoint(-20, currentPlayer);
                     currentPlayer.setHp(20);
                 }
@@ -266,16 +269,15 @@ public class App extends PApplet {
             }
 
         }
-        if (Character.toUpperCase(key) == 'X' && !gameEnd&&!currentPlayer.tankFall) {
-            // if (currentPlayer.getPoint() >= 20) {
-            // currentPlayer.setPoint(-20, currentPlayer);
-            // currentPlayer.setProjSize(false);
+        if (Character.toUpperCase(keyCode) == 'X' && !gameEnd && !currentPlayer.tankFall) {
+            if (currentPlayer.getPoint() >= 20) {
+                currentPlayer.setPoint(-20, currentPlayer);
+                currentPlayer.setProjSize(false);
 
-            // }
-            currentPlayer.setProjSize(false);
+            }
 
         }
-        if (Character.toUpperCase(key) == 'P' && !gameEnd&&!currentPlayer.tankFall) {
+        if (Character.toUpperCase(keyCode) == 'P' && !gameEnd && !currentPlayer.tankFall) {
             if (currentPlayer.getPoint() >= 15) {
                 currentPlayer.setPoint(-15, currentPlayer);
                 currentPlayer.setParachute(1);
@@ -290,62 +292,50 @@ public class App extends PApplet {
      */
     @Override
     public void keyReleased() {
-        if (key == CODED ) {
-            if (keyCode == UP) {
-                System.out.println("UP"); // turrent move +-3 rand
-                turretMovLeft = false;
 
-            }
-            if (keyCode == DOWN ) {
-                System.out.println("DOWN");
-                turretMovRight = false;
+        if (keyCode == UP) {
+            System.out.println("UP"); // turret move +-3 rand
+            turretMovLeft = false;
 
-            }
-            if (keyCode == LEFT ) {
-                System.out.println("LEFT");// tank move +-60 pixel
-                tankMoveLeft = false;
-
-            }
-            if (keyCode == RIGHT ) {
-                System.out.println("RIGHT");
-                tankMoveRight = false;
-
-            }
         }
-        if (Character.toUpperCase(key) == 'S' ) {
+        if (keyCode == DOWN) {
+            System.out.println("DOWN");
+            turretMovRight = false;
+
+        }
+        if (keyCode == LEFT) {
+            System.out.println("LEFT");// tank move +-60 pixel
+            tankMoveLeft = false;
+
+        }
+        if (keyCode == RIGHT) {
+            System.out.println("RIGHT");
+            tankMoveRight = false;
+
+        }
+
+        if (Character.toUpperCase(keyCode) == 'S') {
 
             sPress = false;
 
         }
-        if (Character.toUpperCase(key) == 'W' ) {
+        if (Character.toUpperCase(keyCode) == 'W') {
 
             wPress = false;
 
         }
-        if (key == ' ' ) {
+        if (keyCode == ' ') {
             ifExecute = true;
         }
 
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        // TODO - powerups, like repair and extra fuel and teleport
-        System.out.println(e.getX());
-        System.out.println(e.getY());
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
     /**
-     * Draw all elements in the game by current frame.
+     * Setting up terrain read from level files
+     * 
+     * @param scan scanner object
      */
-
-    public void terrianSetup(Scanner scan) {
+    public void terrainSetup(Scanner scan) {
         String fInput;
 
         char charOfF;
@@ -365,7 +355,7 @@ public class App extends PApplet {
                         float[] cord = new float[2];
                         cord[0] = xCord;
                         cord[1] = yCord * 32;
-                        listOfPointsTerrian.add(cord);
+                        listOfPointsTerrain.add(cord);
                         xCord += 1;
                     }
                 }
@@ -374,13 +364,18 @@ public class App extends PApplet {
             }
             yCord += 1;
         }
-        Terrian t = new Terrian();
+        Terrain t = new Terrain();
 
-        listOfPointsTerrian = t.sortFromLeftToRight(listOfPointsTerrian);
-        listOfPointsTerrian = t.moveAverage(listOfPointsTerrian);
-        listOfPointsTerrian = t.moveAverage(listOfPointsTerrian);
+        listOfPointsTerrain = t.sortFromLeftToRight(listOfPointsTerrain);
+        listOfPointsTerrain = t.moveAverage(listOfPointsTerrain);
+        listOfPointsTerrain = t.moveAverage(listOfPointsTerrain);
     }
 
+    /**
+     * Setting up trees from level files
+     * 
+     * @param scan scanner object
+     */
     public void treeSetup(Scanner scan) {
         String fInput;
 
@@ -408,7 +403,7 @@ public class App extends PApplet {
                     if (cord[0] > 864) {
                         cord[0] = 864;
                     }
-                    float[] temp = listOfPointsTerrian.get((int) cord[0]);
+                    float[] temp = listOfPointsTerrain.get((int) cord[0]);
                     yCord = temp[1] - 32;
                     cord[1] = yCord;
                     listOfPointsTree.add(cord);
@@ -421,6 +416,11 @@ public class App extends PApplet {
 
     }
 
+    /**
+     * Setting up tank from level files
+     * 
+     * @param scan scanner object
+     */
     public void tankSetup(Scanner scan) {
         String fInput;
 
@@ -429,27 +429,43 @@ public class App extends PApplet {
         float yCord = 0;
         jsonObj1 = jsonObj.getJSONObject("player_colours");
         ArrayList<Tankpiece> tempArrayList = new ArrayList<Tankpiece>();
-        int y = 0; // debug purpose
 
         while (scan.hasNextLine()) {
             fInput = scan.nextLine();
             int i = 0;
-            y++;
 
             while (i < fInput.length()) { // The file contain spaces which is 28*20
                 charOfF = fInput.charAt(i);
                 // String c = String.valueOf(charOfF).trim();
-                if (charOfF != 'T' && charOfF != 'X' && charOfF != 'T' && charOfF != 'X'
+                if (charOfF != 'T' && charOfF != 'X' 
                         && !String.valueOf(charOfF).trim().equals("")) { // WEIRD char_of_f==' '
                     // System.out.println(char_of_f); debug
                     float[] cord = new float[2];
 
                     cord[0] = i * 32;
 
-                    float[] temp = listOfPointsTerrian.get((int) cord[0]);
+                    float[] temp = listOfPointsTerrain.get((int) cord[0]);
                     yCord = temp[1];
                     cord[1] = yCord;
                     String color = jsonObj1.getString(String.valueOf(charOfF));
+
+                    if (color.equals("random")) {
+                        color = "";
+                        for (int cont = 0; cont < 3; cont++) {
+                            int min = 0;
+                            int max = 255;
+
+                            int colorNum = (int) Math.floor(Math.random() * (max - min + 1) + min);
+                            String colorString = String.valueOf(colorNum);
+                            if (cont < 2) {
+                                color += colorString + ",";
+
+                            } else {
+                                color += colorString;
+                            }
+                        }
+
+                    }
 
                     if (init == false) {
                         Tankpiece a = new Tankpiece(cord[0], cord[1], color, charOfF, 0, 3);
@@ -457,10 +473,12 @@ public class App extends PApplet {
                     } else {
                         int p = 0;
                         int parachute = 0;
+
                         for (Tankpiece t : listOfTankpiecesFinal) {
                             if (t.getCallSign() == charOfF) {
                                 p = t.getPoint();
                                 parachute = t.getParachute();
+                                color = t.coloString;
                             }
                         }
                         Tankpiece a = new Tankpiece(cord[0], cord[1], color, charOfF, p, parachute);
@@ -473,11 +491,19 @@ public class App extends PApplet {
             }
             yCord += 1;
         }
+
         listOfTankpieces = sortTank(tempArrayList);
         listOfTankpiecesFinal = new ArrayList<Tankpiece>(listOfTankpieces);
+        init = true;
 
     }
 
+    /**
+     * Sorting tank using the call sign(in ascending order)
+     * 
+     * @param list an arraylist consists of Tankpieces
+     * @return an arraylist consists of tankpieces in sorted order
+     */
     public ArrayList<Tankpiece> sortTank(ArrayList<Tankpiece> list) {
         ArrayList<Tankpiece> new_ArrayList = new ArrayList<Tankpiece>();
         while (list.size() > 0) {
@@ -501,6 +527,11 @@ public class App extends PApplet {
         return new_ArrayList;
     }
 
+    /**
+     * Processing move according to the boolean value, which is fetched from
+     * keyboard input
+     */
+
     public void processMove() {
         if (turretMovLeft && !turretMovRight) {
             currentPlayer.turretMovLeft();
@@ -509,10 +540,10 @@ public class App extends PApplet {
             currentPlayer.turretMovRight();
         }
         if (tankMoveLeft && !tankMoveRight) {
-            currentPlayer.tankMoveLeft(listOfPointsTerrian);
+            currentPlayer.tankMoveLeft(listOfPointsTerrain);
         }
         if (tankMoveRight && !tankMoveLeft) {
-            currentPlayer.tankMoveRight(listOfPointsTerrian);
+            currentPlayer.tankMoveRight(listOfPointsTerrain);
 
         }
         if (wPress && !sPress) {
@@ -526,6 +557,11 @@ public class App extends PApplet {
 
     }
 
+    /**
+     * Processing projectiles and get projectile status
+     * 
+     * @param listOfProjectiles an arraylist consists of projectiles
+     */
     public void processProjectile(ArrayList<Projectile> listOfProjectiles) {
         ArrayList<Projectile> listOfProjectilesCopy = new ArrayList<Projectile>(listOfProjectiles);
         for (Projectile projectile : listOfProjectilesCopy) {
@@ -534,7 +570,7 @@ public class App extends PApplet {
 
             }
             if (projectile.getCordX() < -15 || projectile.getCordX() > 880 || projectile.getCordY() > 700) {
-                System.out.println("triggered");
+                // System.out.println("triggered");
                 listOfProjectiles.remove(projectile);
                 continue;
             }
@@ -548,14 +584,18 @@ public class App extends PApplet {
 
     }
 
+    /**
+     * Responsible for switching players in different situations
+     */
     public void playerSwitch() {
         if (currentPlayerIndex >= listOfTankpieces.size() - 1) {
             currentPlayerIndex = -1;
         }
+        if (currentPlayerIndex <= -1) {
+            currentPlayerIndex = -1;
+        }
         currentPlayerIndex += 1;
 
-        // System.out.println("index:"+current_level+"
-        // size:"+list_of_Tankpieces.size());
         if (listOfTankpieces.size() > 0) {
             currentPlayer = listOfTankpieces.get(currentPlayerIndex);
             currentPlayer.ifIterate = true;
@@ -567,17 +607,22 @@ public class App extends PApplet {
         }
     }
 
+    /**
+     * Draw all elements in the game by current frame.
+     */
     @Override
     public void draw() {
+
         image(img, 0, 0);
 
-        Terrian t = new Terrian();
+        Terrain t = new Terrain();
 
-        t.draw(this, listOfPointsTerrian, listOfPointsTree, imgTree, foregroundColour);
+        t.draw(this, listOfPointsTerrain, listOfPointsTree, imgTree, foregroundColour);
 
         processMove();
         for (Tankpiece tank : listOfTankpieces) {
-            tank.draw(this, listOfPointsTerrian, imgParachute, currentPlayer);
+
+            tank.draw(this, listOfPointsTerrain, imgParachute, currentPlayer);
         }
 
         processProjectile(listOfProjectiles);
@@ -618,7 +663,7 @@ public class App extends PApplet {
             if (projectile.projectileSmall()) {
                 if (projectile.toRemove) {
 
-                    Terrian.terrainDamageProj(listOfPointsTerrian, listOfTankpieces, projectile, 30);
+                    Terrain.terrainDamageProj(listOfPointsTerrain, listOfTankpieces, projectile, 30);
 
                     listOfProjectiles.remove(projectile);
 
@@ -629,7 +674,7 @@ public class App extends PApplet {
                 if (projectile.toRemove) {
                     // System.out.println("Enter");
 
-                    Terrian.terrainDamageProj(listOfPointsTerrian, listOfTankpieces, projectile, 60);
+                    Terrain.terrainDamageProj(listOfPointsTerrain, listOfTankpieces, projectile, 60);
 
                     listOfProjectiles.remove(projectile);
 
@@ -653,11 +698,12 @@ public class App extends PApplet {
                 listOfExplosions.add(ep);
                 listOfTankpieces.remove(tmp);
 
-                Terrian.terrainDamageTank(listOfPointsTerrian, tmp, 15);
+                Terrain.terrainDamageTank(listOfPointsTerrain, tmp, 15);
 
                 DamageCalculation.tankDamage(listOfTankpiecesCopy, tmp, 15);
 
                 if (tmp == currentPlayer) {
+                    currentPlayerIndex -= 1;
                     playerSwitch();
                     continue;
                 }
@@ -668,11 +714,12 @@ public class App extends PApplet {
                 listOfExplosions.add(ep);
                 listOfTankpieces.remove(tmp);
 
-                Terrian.terrainDamageTank(listOfPointsTerrian, tmp, 30);
+                Terrain.terrainDamageTank(listOfPointsTerrain, tmp, 30);
 
                 DamageCalculation.tankDamage(listOfTankpiecesCopy, tmp, 30);
 
                 if (tmp == currentPlayer) {
+                    currentPlayerIndex -= 1;
                     playerSwitch();
                 }
 
@@ -680,13 +727,24 @@ public class App extends PApplet {
 
         }
         if (listOfTankpieces.size() <= 1 && !gameEnd) {
-
-            level += 1;
+            if (ifExecute2) {
+                level += 1;
+            }
             if (level == total_level) {
+
                 gameEnd = true;
             }
-            if (!gameEnd) {
-                reset();
+            if (ifExecute2) {
+                start2 = System.nanoTime();
+                ifExecute2 = false;
+            }
+            finish2 = System.nanoTime();
+
+            if (finish2 - start2 >= 1 * 1000000000) {
+                if (!gameEnd) {
+                    ifExecute2 = true;
+                    reset();
+                }
             }
         }
 

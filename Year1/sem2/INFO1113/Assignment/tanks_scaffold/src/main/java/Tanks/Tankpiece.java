@@ -5,16 +5,16 @@ import java.util.*;
 import processing.core.PImage;
 
 public class Tankpiece {
-    private int fuel = 250;
-    private int hp = 100;
-    private int parachute = 3;
+    public int fuel = 250;
+    public int hp = 100;
+    public int parachute = 3;
     private float cordX;
     private float cordY;
-    private float[] pos;
+
     private float start;
     private float finish;
     private int power = 50;
-    
+
     private String[] color;
     private char callSign;
     private float[] turretPos = new float[2];
@@ -26,38 +26,48 @@ public class Tankpiece {
     private Projectile projectile;
 
     private boolean parachuteExpand;
-    
-    public boolean ifExecute=true;
-    public boolean ifIterate=true;
 
-    private boolean projSize=true;
-    public boolean tankFall=false;
-   
+    public boolean ifExecute = true;
+    public boolean ifIterate = true;
 
-    private int point;
+    private boolean projSize = true;
+    public boolean tankFall = false;
+    public String coloString;
 
-    public Tankpiece(float cordX, float cordY, String color_String, char callSign, int point,int parachute) {
+    public int point;
+
+    /**
+     * Constructor for Tankpiece
+     * 
+     * @param cordX
+     * @param cordY
+     * @param colorString
+     * @param callSign
+     * @param point
+     * @param parachute
+     */
+    public Tankpiece(float cordX, float cordY, String colorString, char callSign, int point, int parachute) {
         setCordx(cordX);
         setCordy(cordY);
-
-        String[] temp = colorParser(color_String);
+        this.coloString = colorString;
+        String[] temp = colorParser(colorString);
         this.color = temp;
-        // set_pos(cord_x, cord_y);
+
         this.callSign = callSign;
         setTurretInit(cordX, cordY);
         initCordXTurret = cordX;
         initCordYTurret = cordY - 18;
-        this.point=point;
-        this.parachute=parachute;
-
-        // this.degree=degree;
+        this.point = point;
+        this.parachute = parachute;
 
     }
-    public boolean getProjSize(){
+
+    public boolean getProjSize() {
         return projSize;
     }
-    public void setProjSize(boolean projSize){
-        this.projSize=projSize;
+
+    public void setProjSize(boolean projSize) {
+        this.projSize = projSize;
     }
 
     public void setCordx(float cordX) {
@@ -68,6 +78,12 @@ public class Tankpiece {
         this.cordY = cordY;
     }
 
+    /**
+     * Set the initial position of turret
+     * 
+     * @param cordX x coordinate of the turret
+     * @param cordY y coordinate of the turret
+     */
     public void setTurretInit(float cordX, float cordY) {
         float[] pos = { cordX, cordY - 18 };
 
@@ -75,39 +91,48 @@ public class Tankpiece {
 
     }
 
-    // public void set_pos(float cordx,float cordy){
-    // float[] pos={cordx,cord_y};
-    // this.pos =pos;
-    // }
-
-    public void setPoint(int point,Tankpiece t) {
-        if(point>t.getHp()){
-            point=t.getHp();
+    /**
+     * Set the point the tank received
+     * 
+     * @param point point gained by the player
+     * @param t     t of type Tankpiece
+     */
+    public void setPoint(int point, Tankpiece t) {
+        if (point > t.getHp()) {
+            point = t.getHp();
         }
         // System.out.println("hp: "+this.hp+" point: "+point);
         this.point += point;
     }
 
-public void setHp(int hp){
-    this.hp+=hp;
-    if(this.hp>100){
-        this.hp=100;
+    /**
+     * Set the hp of the tank
+     * 
+     * @param hp an integer hp
+     */
+    public void setHp(int hp) {
+        this.hp += hp;
+        if (this.hp > 100) {
+            this.hp = 100;
+        }
+        if (this.hp < 0) {
+            this.hp = 0;
+        }
+        checkPower();
     }
-    if(this.hp<0){
-        this.hp=0;
+
+    /**
+     * Set the number of parachute
+     * 
+     * @param parachute the number of parachute
+     */
+    public void setParachute(int parachute) {
+        this.parachute += parachute;
     }
-    checkPower();
-}
-public void setParachute(int parachute){
-    this.parachute+=parachute;
-}
 
-public void setProjectile(Projectile projectile){
-    this.projectile=projectile;
-}
-
-
-
+    public void setProjectile(Projectile projectile) {
+        this.projectile = projectile;
+    }
 
     public float getCordX() {
         return cordX;
@@ -158,14 +183,20 @@ public void setProjectile(Projectile projectile){
         return turretPos;
     }
 
+    /**
+     * A color parser that convert String color to a list of string
+     * 
+     * @param color a string of color
+     * @return a list of string
+     */
     public String[] colorParser(String color) {
         String[] temp = color.split(",");
         return temp;
     }
 
-    // public float[] turrent_pos(){
-
-    // }
+    /**
+     * Process turret movement to make sure its relevant position
+     */
     public void processTurret() {
         if (Math.abs(degree) < 90) {
             // System.out.println(degree);
@@ -199,39 +230,54 @@ public void setProjectile(Projectile projectile){
         }
     }
 
+    /**
+     * Process turret movement when turret moves to left
+     */
     public void turretMovLeft() { // move 30 deg each time
-        // float[] temp=turrent_pos;
+
         degree = degree - 171.887339 / 60;
         processTurret();
     }
 
+    /**
+     * Process turret movement when turret moves to right
+     */
     public void turretMovRight() { // move 30 deg each time
-        // float[] temp=turrent_pos;
+
         degree = degree + 171.887339 / 60;
         processTurret();
     }
 
-    public void tankMoveLeft(ArrayList<float[]> list_of_points_terrian) {
+    /**
+     * Process tank movement when tank moves to left
+     * 
+     * @param listOfPointsTerrain an arraylist of type list of float
+     */
+    public void tankMoveLeft(ArrayList<float[]> listOfPointsTerrain) {
         if (cordX > 0 && fuel > 0) {
             cordX -= 1;
             fuel -= 1;
-            float[] temp = list_of_points_terrian.get((int) cordX);
+            float[] temp = listOfPointsTerrain.get((int) cordX);
             cordY = temp[1];
             initCordXTurret = cordX;
             initCordYTurret = cordY - 18;
 
-            // set_turret_init(cord_x, cord_y);
             processTurret();
-            // System.out.println(degree);
-            // System.out.println(turret_pos[0]);
+
         }
     }
 
-    public void tankMoveRight(ArrayList<float[]> list_of_points_terrian) {
+    /**
+     * Process tank movement when tank moves to left
+     * 
+     * @param listOfPointsTerrain an arraylist of type list of float
+     *
+     */
+    public void tankMoveRight(ArrayList<float[]> listOfPointsTerrain) {
         if (cordX < 864 && fuel > 0) {
             cordX += 1;
             fuel -= 1;
-            float[] temp = list_of_points_terrian.get((int) cordX);
+            float[] temp = listOfPointsTerrain.get((int) cordX);
             cordY = temp[1];
             initCordXTurret = cordX;
             initCordYTurret = cordY - 18;
@@ -243,6 +289,9 @@ public void setProjectile(Projectile projectile){
         }
     }
 
+    /**
+     * Check power level to make sure it's reasonable
+     */
     public void checkPower() {
         if (power > hp) {
             power = hp;
@@ -252,30 +301,49 @@ public void setProjectile(Projectile projectile){
         }
     }
 
+    /**
+     * Process power level when power increase
+     */
     public void powerIncrease() {
 
         power += 1;
         checkPower();
     }
 
+    /**
+     * Process power level when power decrease
+     */
     public void powerDecrease() {
         power -= 1;
         checkPower();
     }
 
+    /**
+     * Add fuel by amount a
+     * 
+     * @param a an integer a
+     */
     public void addFuel(int a) {
         fuel += a;
 
     }
-    private int dmgSum=0;
-    public void tankCheck(ArrayList<float[]> list_of_points_terrian) {
-        if (cordY < list_of_points_terrian.get((int) cordX)[1]) {
-            tankFall=true;
-            if (parachute > 0 ||parachuteExpand) {
+
+    private int dmgSum = 0;
+
+    /**
+     * Check tank position
+     * 
+     * @param listOfPointsTerrain an arraylist consists of terrain coordinates
+     */
+    public void tankCheck(ArrayList<float[]> listOfPointsTerrain) {
+        // System.out.println(listOfPointsTerrain.size()+"cordx: "+cordX);
+        if (cordY < listOfPointsTerrain.get((int) cordX)[1]) {
+            tankFall = true;
+            if (parachute > 0 || parachuteExpand) {
                 if (!parachuteExpand) {
                     parachuteExpand = true;
                     parachute--;
-                    
+
                 }
                 cordY += 1;
                 initCordXTurret = cordX;
@@ -283,63 +351,68 @@ public void setProjectile(Projectile projectile){
                 processTurret();
             } else {
                 cordY += 2;
-                dmgSum+=2;
+                dmgSum += 2;
                 initCordXTurret = cordX;
                 initCordYTurret = cordY - 18;
                 processTurret();
             }
         } else {
-            tankFall=false;
-            if(projectile!=null){
-                System.out.println("this is called in tankpiece");
-                projectile.getBelonging().setPoint(dmgSum,this);
+            tankFall = false;
+            if (projectile != null) {
+                // System.out.println("this is called in tankpiece");
+                projectile.getBelonging().setPoint(dmgSum, this);
                 setHp(-dmgSum);
             }
-            dmgSum=0;
-            projectile=null;
+            dmgSum = 0;
+            projectile = null;
             parachuteExpand = false;
-            
+
         }
     }
-    
 
-    public void draw(App app, ArrayList<float[]> list_of_points_terrian, PImage img_parachute,Tankpiece currentPlayer) {
-        
-            tankCheck(list_of_points_terrian);
-            
+    /**
+     * Draw tank
+     * 
+     * @param app                 app from App
+     * @param listOfPointsTerrain an arraylist consists of terrain coordinates
+     * @param img_parachute       parachute image
+     * @param currentPlayer       currentPlayer of the game, type Tankpiece
+     */
+    public void draw(App app, ArrayList<float[]> listOfPointsTerrain, PImage img_parachute, Tankpiece currentPlayer) {
 
-            app.stroke(0, 0, 0);
-            app.strokeWeight(4);
-            app.line(turretPos[0], turretPos[1], cordX, cordY - 3);
+        tankCheck(listOfPointsTerrain);
 
-            app.noStroke();
-            app.fill(Float.parseFloat(color[0]), Float.parseFloat(color[1]), Float.parseFloat(color[2]));
-            app.rect(cordX - 10, cordY, 20, 5);
-            app.rect(cordX - 7.5f, cordY - 5, 15, 5);
+        app.stroke(0, 0, 0);
+        app.strokeWeight(4);
+        app.line(turretPos[0], turretPos[1], cordX, cordY - 3);
 
-            if (parachuteExpand) {
-                app.image(img_parachute, cordX - 10 - 5, cordY - 35, 32, 32);
-            }
-            if(this==currentPlayer){
-                finish=System.nanoTime();
-                if(ifExecute){
-                    app.stroke(0, 0, 0);
-                    app.strokeWeight(2f);
-                    app.line(cordX, cordY-100, cordX, cordY -50);
-                    app.line(cordX-10,cordY-70,cordX, cordY -50);
-                    app.line(cordX+10,cordY-70,cordX, cordY -50);
-                    if(ifIterate){
-                        start=System.nanoTime();
-                    }
-                    ifIterate=false;
-                    
+        app.noStroke();
+        app.fill(Float.parseFloat(color[0]), Float.parseFloat(color[1]), Float.parseFloat(color[2]));
+        app.rect(cordX - 10, cordY, 20, 5);
+        app.rect(cordX - 7.5f, cordY - 5, 15, 5);
+
+        if (parachuteExpand) {
+            app.image(img_parachute, cordX - 10 - 5, cordY - 35, 32, 32);
+        }
+        if (this == currentPlayer) {
+            finish = System.nanoTime();
+            if (ifExecute) {
+                app.stroke(0, 0, 0);
+                app.strokeWeight(2f);
+                app.line(cordX, cordY - 100, cordX, cordY - 50);
+                app.line(cordX - 10, cordY - 70, cordX, cordY - 50);
+                app.line(cordX + 10, cordY - 70, cordX, cordY - 50);
+                if (ifIterate) {
+                    start = System.nanoTime();
                 }
-                if(finish - start > 2 * 1000000000){
-                    ifExecute=false;
-                }
+                ifIterate = false;
 
             }
+            if (finish - start > 2 * 1000000000) {
+                ifExecute = false;
+            }
 
-    
-}
+        }
+
+    }
 }

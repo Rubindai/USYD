@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Tanks.movingAndFiringTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-05-15T07:45:30" hostname="Rubin" time="37.708">
+  <properties/>
+  <testcase name="firingAndMoving()" classname="Tanks.movingAndFiringTest" time="11.114"/>
+  <testcase name="fireToTerrian()" classname="Tanks.movingAndFiringTest" time="6.288"/>
+  <testcase name="fireToVoid()" classname="Tanks.movingAndFiringTest" time="9.855"/>
+  <testcase name="firingOnOthers()" classname="Tanks.movingAndFiringTest" time="10.446"/>
+  <system-out><![CDATA[DOWN
+DOWN
+Space
+INVALID TURRET POSITION
+RIGHT
+RIGHT
+UP
+UP
+Space
+DOWN
+DOWN
+Space
+INVALID TURRET POSITION
+LEFT
+LEFT
+UP
+UP
+Space
+INVALID TURRET POSITION
+DOWN
+DOWN
+Space
+Space
+Space
+Space
+Space
+line 90 from terrain
+line 90 from terrain
+line 90 from terrain
+line 90 from terrain
+line 90 from terrain
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

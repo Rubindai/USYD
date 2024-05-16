@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Tanks.explosionTankTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-05-15T07:44:28" hostname="Rubin" time="11.334">
+  <properties/>
+  <testcase name="explodeLowHp()" classname="Tanks.explosionTankTest" time="6.015"/>
+  <testcase name="explodeOutOfTerrain()" classname="Tanks.explosionTankTest" time="5.319"/>
+  <system-out><![CDATA[LEFT
+LEFT
+RIGHT
+RIGHT
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

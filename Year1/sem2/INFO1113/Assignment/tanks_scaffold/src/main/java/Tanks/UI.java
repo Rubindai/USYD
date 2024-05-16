@@ -6,19 +6,31 @@ import java.util.Collection;
 import processing.core.PImage;
 
 public class UI {
-    
+
     private ArrayList<Tankpiece> listOfTankpieces;
-    private boolean ifIterate=false;
-    private boolean ifUpdateTime=true;
+    private boolean ifIterate = false;
+    private boolean ifUpdateTime = true;
     private float start;
     private float finish;
-    private int i=1;
+    private int i = 1;
 
-    public UI( ArrayList<Tankpiece> listOfTankpieces) {
-        
+    /**
+     * Constructor for UI
+     * 
+     * @param listOfTankpieces an arraylist consists of Tankpieces
+     */
+    public UI(ArrayList<Tankpiece> listOfTankpieces) {
+
         this.listOfTankpieces = listOfTankpieces;
 
     }
+
+    /**
+     * Sorting tank using the point(in descending order)
+     * 
+     * @param list an arraylist consists of Tankpieces
+     * @return an arraylist consists of Tankpieces in sorted order
+     */
     public ArrayList<Tankpiece> sortTank(ArrayList<Tankpiece> list) {
         ArrayList<Tankpiece> new_ArrayList = new ArrayList<Tankpiece>();
         while (list.size() > 0) {
@@ -41,86 +53,82 @@ public class UI {
 
         return new_ArrayList;
     }
-    public void endGameUI(App app){
-        
-        app.fill(255,102,102,200);
+
+    /**
+     * Drawing scoreboard when the game ends
+     * 
+     * @param app app from App
+     */
+    public void endGameUI(App app) {
+
+        app.fill(255, 102, 102, 200);
         app.stroke(0);
         app.strokeWeight(4);
         app.rect(250, 150, 400, listOfTankpieces.size() * 40 + 25);
         app.rect(250, 150, 400, 40f);
-        
+
         app.fill(0);
         app.textSize(20);
         app.text("Final Scores", 260, 175);
-        ArrayList<Tankpiece>listOfTankpiecesCopy=new ArrayList<Tankpiece>(listOfTankpieces);
-        listOfTankpiecesCopy=sortTank(listOfTankpiecesCopy);
-        
-        app.fill(Float.parseFloat(listOfTankpiecesCopy.get(0).getColor()[0]), Float.parseFloat(listOfTankpiecesCopy.get(0).getColor()[1]),
-                    Float.parseFloat(listOfTankpiecesCopy.get(0).getColor()[2]));
-        app.text("Player " + listOfTankpiecesCopy.get(0).getCallSign()+" wins!", 260, 130);
-        
-        int k=0;
-        finish=System.nanoTime();
-        for(;k<i;){
-            app.fill(Float.parseFloat(listOfTankpiecesCopy.get(k).getColor()[0]), Float.parseFloat(listOfTankpiecesCopy.get(k).getColor()[1]),
+        ArrayList<Tankpiece> listOfTankpiecesCopy = new ArrayList<Tankpiece>(listOfTankpieces);
+        listOfTankpiecesCopy = sortTank(listOfTankpiecesCopy);
+
+        app.fill(Float.parseFloat(listOfTankpiecesCopy.get(0).getColor()[0]),
+                Float.parseFloat(listOfTankpiecesCopy.get(0).getColor()[1]),
+                Float.parseFloat(listOfTankpiecesCopy.get(0).getColor()[2]));
+        app.text("Player " + listOfTankpiecesCopy.get(0).getCallSign() + " wins!", 260, 130);
+
+        int k = 0;
+        finish = System.nanoTime();
+        for (; k < i;) {
+            app.fill(Float.parseFloat(listOfTankpiecesCopy.get(k).getColor()[0]),
+                    Float.parseFloat(listOfTankpiecesCopy.get(k).getColor()[1]),
                     Float.parseFloat(listOfTankpiecesCopy.get(k).getColor()[2]));
             app.text("Player " + listOfTankpiecesCopy.get(k).getCallSign(), 260, 220 + k * 35);
-            
+
             app.fill(0);
             app.text(listOfTankpiecesCopy.get(k).getPoint(), 550, 220 + k * 35);
-            if(ifUpdateTime){
+            if (ifUpdateTime) {
                 // System.out.println("Entered");
-                start=System.nanoTime();
-                ifUpdateTime=false;
-            
+                start = System.nanoTime();
+                ifUpdateTime = false;
+
             }
-            
-            
-            k+=1;
+
+            k += 1;
 
         }
-        // System.out.println("finish: "+finish+" start: "+start+" diff: "+(finish-start)/1000000000);
-        
-        if(finish - start > 0.7 * 1000000000 &&i<listOfTankpiecesCopy.size()){
-            ifIterate=true;
+
+        if (finish - start > 0.7 * 1000000000 && i < listOfTankpiecesCopy.size()) {
+            ifIterate = true;
         }
-        if(ifIterate){
-                
+        if (ifIterate) {
+
             i += 1;
-            ifIterate=false;
-            ifUpdateTime=true;
-            if(i>=listOfTankpiecesCopy.size()){
-                i=listOfTankpiecesCopy.size();
-                ifIterate=false;
-                ifUpdateTime=false;
-                
+            ifIterate = false;
+            ifUpdateTime = true;
+            if (i >= listOfTankpiecesCopy.size()) {
+                i = listOfTankpiecesCopy.size();
+                ifIterate = false;
+                ifUpdateTime = false;
+
             }
         }
-        // for(Tankpiece t:listOfTankpiecesCopy){
-        //     app.fill(Float.parseFloat(t.getColor()[0]), Float.parseFloat(t.getColor()[1]),
-        //             Float.parseFloat(t.getColor()[2]));
-        //     app.text("Player " + t.getCallSign(), 260, 220 + i * 35);
-        //     i += 1;
-        //     app.fill(0);
-        //     app.text(t.getPoint(), 550, 185 + i * 35);
-            
-        // }
-        
-        
-        // int i = 0;
-        // for (Tankpiece t : listOfTankpieces) {
 
-        //     app.fill(Float.parseFloat(t.getColor()[0]), Float.parseFloat(t.getColor()[1]),
-        //             Float.parseFloat(t.getColor()[2]));
-        //     app.text("Player " + t.getCallSign(), 720, 90 + i * 20);
-        //     i += 1;
-        //     app.fill(0);
-        //     app.text(t.getPoint(), 820, 70 + i * 20);
-        
-    // }
-}
-    
-    public void draw(App app, PImage fuel_img, PImage parachute_img, Tankpiece current,boolean projDisplay,boolean gameEnd) {
+    }
+
+    /**
+     * Draw UI for the game
+     * 
+     * @param app           app from App
+     * @param fuel_img      fuel image
+     * @param parachute_img parachute image
+     * @param current       currentPlayer of the game
+     * @param projDisplay   whether to display large projectile
+     * @param gameEnd       whether the game end
+     */
+    public void draw(App app, PImage fuel_img, PImage parachute_img, Tankpiece current, boolean projDisplay,
+            boolean gameEnd) {
         app.textSize(18);
         app.text("Player " + current.getCallSign() + "'s turn", 15, 25);
 
@@ -158,7 +166,7 @@ public class UI {
         app.text(current.getPower(), 430, 52.5f);
 
         // scoreboard
-        if(!gameEnd){
+        if (!gameEnd) {
             app.noFill();
             app.stroke(0);
             app.strokeWeight(4);
@@ -176,15 +184,11 @@ public class UI {
                 app.fill(0);
                 app.text(t.getPoint(), 820, 70 + i * 20);
             }
-        if(!projDisplay){
-            app.fill(Float.parseFloat(current.getColor()[0]), Float.parseFloat(current.getColor()[1]),
-                    Float.parseFloat(current.getColor()[2]));
-            app.text("Large projectile", 100, 100);
-        }
-
-            // if(i==2){
-            // break;
-            // }
+            if (!projDisplay) {
+                app.fill(Float.parseFloat(current.getColor()[0]), Float.parseFloat(current.getColor()[1]),
+                        Float.parseFloat(current.getColor()[2]));
+                app.text("Large projectile", 100, 100);
+            }
 
         }
 

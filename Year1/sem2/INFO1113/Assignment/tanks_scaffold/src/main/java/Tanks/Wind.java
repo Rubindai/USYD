@@ -3,11 +3,15 @@ package Tanks;
 import processing.core.PImage;
 
 public class Wind {
-    private int windSpeed;
+    public int windSpeed;
     private PImage windLeft;
     private PImage windRight;
-    
 
+    /**
+     * Constructor for Wind
+     * @param windLeft image of windleft
+     * @param windRight image of windright
+     */
     public Wind(PImage windLeft, PImage windRight) {
         randomInit();
         this.windLeft = windLeft;
@@ -19,6 +23,9 @@ public class Wind {
         return windSpeed;
     }
 
+    /**
+     * Set initial random wind value when the level starts
+     */
     public void randomInit() {
         int min = -35;
         int max = 35;
@@ -28,6 +35,9 @@ public class Wind {
 
     }
 
+    /**
+     * Switch wind per turn
+     */
     public void randomTurn() {
         int min = -5;
         int max = 5;
@@ -39,6 +49,10 @@ public class Wind {
 
     }
 
+    /**
+     * Draw Wind icon
+     * @param app app from App
+     */
     public void draw(App app) {
         // windspeed=10;
         if (windSpeed < 0) {

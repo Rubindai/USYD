@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Tanks.movingTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-05-15T07:46:07" hostname="Rubin" time="18.809">
+  <properties/>
+  <testcase name="movingLeft()" classname="Tanks.movingTest" time="6.254"/>
+  <testcase name="movingRight()" classname="Tanks.movingTest" time="7.632"/>
+  <testcase name="mixMoving()" classname="Tanks.movingTest" time="4.921"/>
+  <system-out><![CDATA[LEFT
+LEFT
+RIGHT
+RIGHT
+RIGHT
+RIGHT
+LEFT
+LEFT
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

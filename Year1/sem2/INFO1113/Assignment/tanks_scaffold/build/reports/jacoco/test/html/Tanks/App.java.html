@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tanks_scaffold</a> &gt; <a href="index.source.html" class="el_package">Tanks</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package Tanks;
+
+import org.checkerframework.checker.units.qual.A;
+import processing.core.PApplet;
+import processing.core.PImage;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
+import java.io.*;
+import java.util.*;
+
+public class App extends PApplet {
+
+    public static final int CELLSIZE = 32; // 8;
+    public static final int CELLHEIGHT = 32;
+
+    public static final int CELLAVG = 32;
+    public static final int TOPBAR = 0;
+<span class="fc" id="L25">    public static int WIDTH = 864; // CELLSIZE*BOARD_WIDTH;</span>
+<span class="fc" id="L26">    public static int HEIGHT = 640; // BOARD_HEIGHT*CELLSIZE+TOPBAR;</span>
+<span class="fc" id="L27">    public static final int BOARD_WIDTH = WIDTH / CELLSIZE;</span>
+    public static final int BOARD_HEIGHT = 20;
+
+    public static final int INITIAL_PARACHUTES = 1;
+
+    public static final int FPS = 30;
+
+    public String configPath;
+
+<span class="fc" id="L36">    public static Random random = new Random();</span>
+    private PImage img;
+    private PImage imgTree;
+    private PImage imgWindLeft;
+    private PImage imgWindRight;
+    private PImage imgFuel;
+    private PImage imgParachute;
+    private JSONArray jsonArray;
+    private JSONObject jsonObj;
+    private String layout;
+    public String background;
+    private String foregroundColour;
+    private String trees;
+    private long start;
+    private long finish;
+    private long start2;
+    private long finish2;
+
+<span class="fc" id="L54">    public ArrayList&lt;float[]&gt; listOfPointsTerrain = new ArrayList&lt;float[]&gt;();</span>
+<span class="fc" id="L55">    public ArrayList&lt;float[]&gt; listOfPointsTree = new ArrayList&lt;float[]&gt;();</span>
+<span class="fc" id="L56">    public ArrayList&lt;Tankpiece&gt; listOfTankpieces = new ArrayList&lt;Tankpiece&gt;();</span>
+<span class="fc" id="L57">    private ArrayList&lt;Tankpiece&gt; listOfTankpiecesFinal = new ArrayList&lt;Tankpiece&gt;();</span>
+<span class="fc" id="L58">    public ArrayList&lt;Projectile&gt; listOfProjectiles = new ArrayList&lt;Projectile&gt;();</span>
+<span class="fc" id="L59">    public ArrayList&lt;Explosion&gt; listOfExplosions = new ArrayList&lt;Explosion&gt;();</span>
+    public Tankpiece currentPlayer;
+    public boolean turretMovLeft;
+    public boolean turretMovRight;
+    public boolean tankMoveLeft;
+    public boolean tankMoveRight;
+    public boolean wPress;
+    public boolean sPress;
+    public boolean init;
+<span class="fc" id="L68">    private boolean ifExecute = true;</span>
+    public boolean gameEnd;
+<span class="fc" id="L70">    private boolean ifExecute2 = true;</span>
+
+    public Wind wind;
+<span class="fc" id="L73">    public int level = 0;</span>
+    private int total_level;
+    private int currentPlayerIndex;
+
+    private UI ui;
+
+    // Feel free to add any additional methods or attributes you want. Please put
+    // classes in different files.
+
+<span class="fc" id="L82">    public App() {</span>
+<span class="fc" id="L83">        this.configPath = &quot;config.json&quot;;</span>
+
+<span class="fc" id="L85">    }</span>
+
+    /**
+     * Initialize the setting of the window size.
+     */
+    @Override
+    public void settings() {
+<span class="fc" id="L92">        size(WIDTH, HEIGHT);</span>
+
+<span class="fc" id="L94">    }</span>
+
+    /**
+     * Load all resources such as images. Initialize the elements such as the player
+     * and map elements.
+     */
+    @Override
+    public void setup() {
+<span class="fc" id="L102">        frameRate(FPS);</span>
+
+<span class="fc" id="L104">        reset();</span>
+
+        // See PApplet javadoc:
+        // loadJSONObject(configPath)
+        // loadImage(this.getClass().getResource(filename).getPath().toLowerCase(Locale.ROOT).replace(&quot;%20&quot;,
+        // &quot; &quot;));
+<span class="fc" id="L110">    }</span>
+
+    /**
+     * Resetting between levels and reset game when game ends
+     */
+    public void reset() {
+<span class="fc" id="L116">        img = null;</span>
+<span class="fc" id="L117">        imgTree = null;</span>
+<span class="fc" id="L118">        jsonArray = null;</span>
+<span class="fc" id="L119">        jsonObj = null;</span>
+<span class="fc" id="L120">        layout = null;</span>
+<span class="fc" id="L121">        background = null;</span>
+<span class="fc" id="L122">        foregroundColour = null;</span>
+<span class="fc" id="L123">        trees = null;</span>
+<span class="fc" id="L124">        listOfPointsTerrain = new ArrayList&lt;float[]&gt;();</span>
+<span class="fc" id="L125">        listOfPointsTree = new ArrayList&lt;float[]&gt;();</span>
+<span class="fc" id="L126">        listOfProjectiles = new ArrayList&lt;Projectile&gt;();</span>
+<span class="fc" id="L127">        listOfExplosions = new ArrayList&lt;Explosion&gt;();</span>
+
+<span class="fc" id="L129">        currentPlayer = null;</span>
+<span class="fc" id="L130">        jsonObj = loadJSONObject(configPath);</span>
+<span class="fc" id="L131">        currentPlayerIndex = 0;</span>
+
+<span class="fc" id="L133">        jsonArray = jsonObj.getJSONArray(&quot;levels&quot;);</span>
+<span class="fc" id="L134">        total_level = jsonArray.size();</span>
+
+<span class="fc" id="L136">        layout = jsonArray.getJSONObject(level).getString(&quot;layout&quot;);</span>
+
+<span class="fc" id="L138">        background = jsonArray.getJSONObject(level).getString(&quot;background&quot;);</span>
+<span class="fc" id="L139">        foregroundColour = jsonArray.getJSONObject(level).getString(&quot;foreground-colour&quot;);</span>
+<span class="fc" id="L140">        trees = jsonArray.getJSONObject(level).getString(&quot;trees&quot;);</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (trees == null) {</span>
+<span class="fc" id="L142">            trees = &quot;tree2.png&quot;;</span>
+        }
+<span class="fc" id="L144">        img = loadImage(&quot;src/main/resources/Tanks/&quot; + background);</span>
+<span class="fc" id="L145">        imgTree = loadImage(&quot;src/main/resources/Tanks/&quot; + trees);</span>
+<span class="fc" id="L146">        imgWindLeft = loadImage(&quot;src/main/resources/Tanks/wind-1.png&quot;);</span>
+<span class="fc" id="L147">        imgWindRight = loadImage(&quot;src/main/resources/Tanks/wind.png&quot;);</span>
+<span class="fc" id="L148">        imgFuel = loadImage(&quot;src/main/resources/Tanks/fuel.png&quot;);</span>
+<span class="fc" id="L149">        imgParachute = loadImage(&quot;src/main/resources/Tanks/parachute.png&quot;);</span>
+
+        File fIn;
+
+<span class="fc" id="L153">        Scanner scan = null;</span>
+<span class="fc" id="L154">        Scanner scan2 = null;</span>
+<span class="fc" id="L155">        Scanner scan3 = null;</span>
+
+        try {
+
+<span class="fc" id="L159">            fIn = new File(layout);</span>
+<span class="fc" id="L160">            scan = new Scanner(fIn);</span>
+
+<span class="fc" id="L162">            scan2 = new Scanner(fIn);</span>
+<span class="fc" id="L163">            scan3 = new Scanner(fIn);</span>
+
+<span class="nc" id="L165">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L166">            System.err.println(&quot;ERROR ON FILE PARSING&quot;);</span>
+
+<span class="fc" id="L168">        }</span>
+<span class="fc" id="L169">        terrainSetup(scan);</span>
+
+<span class="fc" id="L171">        treeSetup(scan2);</span>
+
+<span class="fc" id="L173">        tankSetup(scan3);</span>
+
+<span class="fc" id="L175">        currentPlayer = listOfTankpieces.get(0);</span>
+<span class="fc" id="L176">        wind = new Wind(imgWindLeft, imgWindRight);</span>
+<span class="fc" id="L177">        ui = new UI(listOfTankpiecesFinal);</span>
+<span class="fc" id="L178">        ifExecute2 = true;</span>
+
+<span class="fc" id="L180">    }</span>
+
+    /**
+     * Receive key pressed signal from the keyboard.
+     */
+    @Override
+    public void keyPressed(KeyEvent event) {
+
+<span class="pc bpc" id="L188" title="1 of 6 branches missed.">        if (keyCode == UP &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="fc" id="L189">            System.out.println(&quot;UP&quot;); // turret move +-3 rand</span>
+<span class="fc" id="L190">            turretMovLeft = true;</span>
+
+        }
+<span class="pc bpc" id="L193" title="1 of 6 branches missed.">        if (keyCode == DOWN &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="fc" id="L194">            System.out.println(&quot;DOWN&quot;);</span>
+<span class="fc" id="L195">            turretMovRight = true;</span>
+
+        }
+<span class="pc bpc" id="L198" title="1 of 6 branches missed.">        if (keyCode == LEFT &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="fc" id="L199">            System.out.println(&quot;LEFT&quot;);// tank move +-60 pixel</span>
+<span class="fc" id="L200">            tankMoveLeft = true;</span>
+
+        }
+<span class="pc bpc" id="L203" title="1 of 6 branches missed.">        if (keyCode == RIGHT &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="fc" id="L204">            System.out.println(&quot;RIGHT&quot;);</span>
+<span class="fc" id="L205">            tankMoveRight = true;</span>
+
+        }
+
+<span class="pc bpc" id="L209" title="1 of 6 branches missed.">        if (keyCode == 32 &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+
+<span class="fc bfc" id="L211" title="All 2 branches covered.">            if (ifExecute) {</span>
+<span class="fc" id="L212">                System.out.println(&quot;Space&quot;);// fire</span>
+
+<span class="fc bfc" id="L214" title="All 2 branches covered.">                if (currentPlayer.getTurretPos()[0] &gt;= 0) {</span>
+<span class="fc" id="L215">                    if (listOfPointsTerrain.get((int) (currentPlayer.getTurretPos()[0]))[1] &gt; currentPlayer</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">                            .getTurretPos()[1]) {</span>
+                        // EDGE CASE ATTENTION
+<span class="fc" id="L218">                        Projectile p = new Projectile(currentPlayer, wind, listOfPointsTerrain,</span>
+<span class="fc" id="L219">                                currentPlayer.getProjSize());</span>
+<span class="fc" id="L220">                        listOfProjectiles.add(p);</span>
+<span class="fc" id="L221">                        wind.randomTurn();</span>
+<span class="fc" id="L222">                        currentPlayer.setProjSize(true);</span>
+<span class="fc" id="L223">                        playerSwitch();</span>
+
+<span class="fc" id="L225">                    } else {</span>
+<span class="fc" id="L226">                        System.out.println(&quot;INVALID TURRET POSITION&quot;);</span>
+                    }
+
+                } else {
+<span class="fc" id="L230">                    System.out.println(&quot;INVALID TURRET POSITION&quot;);</span>
+                }
+<span class="fc" id="L232">                start = System.nanoTime();</span>
+<span class="fc" id="L233">                ifExecute = false;</span>
+            }
+<span class="fc" id="L235">            finish = System.nanoTime();</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">            if (finish - start &gt; 0.05 * 1000000000) {</span>
+<span class="fc" id="L237">                ifExecute = true;</span>
+            }
+
+        }
+<span class="pc bpc" id="L241" title="1 of 6 branches missed.">        if (Character.toUpperCase(keyCode) == 'S' &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="fc" id="L242">            System.out.println(&quot;S&quot;);</span>
+<span class="fc" id="L243">            sPress = true;</span>
+
+        }
+<span class="pc bpc" id="L246" title="1 of 6 branches missed.">        if (Character.toUpperCase(keyCode) == 'W' &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="fc" id="L247">            System.out.println(&quot;W&quot;);</span>
+<span class="fc" id="L248">            wPress = true;</span>
+
+        }
+<span class="pc bpc" id="L251" title="1 of 6 branches missed.">        if (Character.toUpperCase(keyCode) == 'F' &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">            if (currentPlayer.getPoint() &gt;= 10) {</span>
+<span class="fc" id="L253">                currentPlayer.setPoint(-10, currentPlayer);</span>
+<span class="fc" id="L254">                currentPlayer.addFuel(200);</span>
+            }
+
+        }
+<span class="pc bpc" id="L258" title="1 of 4 branches missed.">        if (Character.toUpperCase(keyCode) == 'R' &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">            if (!gameEnd) {</span>
+<span class="pc bpc" id="L260" title="2 of 4 branches missed.">                if (currentPlayer.getPoint() &gt;= 20&amp;&amp;currentPlayer.hp&lt;100) {</span>
+<span class="fc" id="L261">                    currentPlayer.setPoint(-20, currentPlayer);</span>
+<span class="fc" id="L262">                    currentPlayer.setHp(20);</span>
+                }
+            } else {
+<span class="fc" id="L265">                init = false;</span>
+<span class="fc" id="L266">                gameEnd = false;</span>
+<span class="fc" id="L267">                level = 0;</span>
+<span class="fc" id="L268">                reset();</span>
+            }
+
+        }
+<span class="pc bpc" id="L272" title="2 of 6 branches missed.">        if (Character.toUpperCase(keyCode) == 'X' &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">            if (currentPlayer.getPoint() &gt;= 20) {</span>
+<span class="fc" id="L274">                currentPlayer.setPoint(-20, currentPlayer);</span>
+<span class="fc" id="L275">                currentPlayer.setProjSize(false);</span>
+
+            }
+
+        }
+<span class="pc bpc" id="L280" title="2 of 6 branches missed.">        if (Character.toUpperCase(keyCode) == 'P' &amp;&amp; !gameEnd &amp;&amp; !currentPlayer.tankFall) {</span>
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">            if (currentPlayer.getPoint() &gt;= 15) {</span>
+<span class="fc" id="L282">                currentPlayer.setPoint(-15, currentPlayer);</span>
+<span class="fc" id="L283">                currentPlayer.setParachute(1);</span>
+            }
+
+        }
+
+<span class="fc" id="L288">    }</span>
+
+    /**
+     * Receive key released signal from the keyboard.
+     */
+    @Override
+    public void keyReleased() {
+
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (keyCode == UP) {</span>
+<span class="fc" id="L297">            System.out.println(&quot;UP&quot;); // turret move +-3 rand</span>
+<span class="fc" id="L298">            turretMovLeft = false;</span>
+
+        }
+<span class="fc bfc" id="L301" title="All 2 branches covered.">        if (keyCode == DOWN) {</span>
+<span class="fc" id="L302">            System.out.println(&quot;DOWN&quot;);</span>
+<span class="fc" id="L303">            turretMovRight = false;</span>
+
+        }
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (keyCode == LEFT) {</span>
+<span class="fc" id="L307">            System.out.println(&quot;LEFT&quot;);// tank move +-60 pixel</span>
+<span class="fc" id="L308">            tankMoveLeft = false;</span>
+
+        }
+<span class="fc bfc" id="L311" title="All 2 branches covered.">        if (keyCode == RIGHT) {</span>
+<span class="fc" id="L312">            System.out.println(&quot;RIGHT&quot;);</span>
+<span class="fc" id="L313">            tankMoveRight = false;</span>
+
+        }
+
+<span class="fc bfc" id="L317" title="All 2 branches covered.">        if (Character.toUpperCase(keyCode) == 'S') {</span>
+
+<span class="fc" id="L319">            sPress = false;</span>
+
+        }
+<span class="fc bfc" id="L322" title="All 2 branches covered.">        if (Character.toUpperCase(keyCode) == 'W') {</span>
+
+<span class="fc" id="L324">            wPress = false;</span>
+
+        }
+<span class="fc bfc" id="L327" title="All 2 branches covered.">        if (keyCode == ' ') {</span>
+<span class="fc" id="L328">            ifExecute = true;</span>
+        }
+
+<span class="fc" id="L331">    }</span>
+
+    /**
+     * Setting up terrain read from level files
+     * 
+     * @param scan scanner object
+     */
+    public void terrainSetup(Scanner scan) {
+        String fInput;
+
+        char charOfF;
+<span class="fc" id="L342">        float yCord = 0;</span>
+<span class="fc" id="L343">        float xCord = 0;</span>
+
+<span class="fc bfc" id="L345" title="All 2 branches covered.">        while (scan.hasNextLine()) {</span>
+<span class="fc" id="L346">            fInput = scan.nextLine();</span>
+<span class="fc" id="L347">            int i = 0;</span>
+
+<span class="fc bfc" id="L349" title="All 2 branches covered.">            while (i &lt; fInput.length()) { // The file contain spaces which is 28*20</span>
+<span class="fc" id="L350">                charOfF = fInput.charAt(i);</span>
+<span class="fc bfc" id="L351" title="All 2 branches covered.">                if (charOfF == 'X') {</span>
+<span class="fc" id="L352">                    xCord = i * 32;</span>
+
+<span class="fc bfc" id="L354" title="All 2 branches covered.">                    for (int k = 0; k &lt; 32; k++) {</span>
+<span class="fc" id="L355">                        float[] cord = new float[2];</span>
+<span class="fc" id="L356">                        cord[0] = xCord;</span>
+<span class="fc" id="L357">                        cord[1] = yCord * 32;</span>
+<span class="fc" id="L358">                        listOfPointsTerrain.add(cord);</span>
+<span class="fc" id="L359">                        xCord += 1;</span>
+                    }
+                }
+
+<span class="fc" id="L363">                i += 1;</span>
+            }
+<span class="fc" id="L365">            yCord += 1;</span>
+<span class="fc" id="L366">        }</span>
+<span class="fc" id="L367">        Terrain t = new Terrain();</span>
+
+<span class="fc" id="L369">        listOfPointsTerrain = t.sortFromLeftToRight(listOfPointsTerrain);</span>
+<span class="fc" id="L370">        listOfPointsTerrain = t.moveAverage(listOfPointsTerrain);</span>
+<span class="fc" id="L371">        listOfPointsTerrain = t.moveAverage(listOfPointsTerrain);</span>
+<span class="fc" id="L372">    }</span>
+
+    /**
+     * Setting up trees from level files
+     * 
+     * @param scan scanner object
+     */
+    public void treeSetup(Scanner scan) {
+        String fInput;
+
+        char charOfF;
+<span class="fc" id="L383">        float yCord = 0;</span>
+
+<span class="fc bfc" id="L385" title="All 2 branches covered.">        while (scan.hasNextLine()) {</span>
+<span class="fc" id="L386">            fInput = scan.nextLine();</span>
+<span class="fc" id="L387">            int i = 0;</span>
+
+<span class="fc bfc" id="L389" title="All 2 branches covered.">            while (i &lt; fInput.length()) { // The file contain spaces which is 28*20</span>
+<span class="fc" id="L390">                charOfF = fInput.charAt(i);</span>
+
+<span class="fc bfc" id="L392" title="All 2 branches covered.">                if (charOfF == 'T') {</span>
+
+<span class="fc" id="L394">                    float[] cord = new float[2];</span>
+<span class="fc" id="L395">                    int min = -15;</span>
+<span class="fc" id="L396">                    int max = 15;</span>
+
+<span class="fc" id="L398">                    int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);</span>
+<span class="fc" id="L399">                    cord[0] = i * 32 + random_int;</span>
+<span class="pc bpc" id="L400" title="1 of 2 branches missed.">                    if (cord[0] &lt; 0) {</span>
+<span class="nc" id="L401">                        cord[0] = 0;</span>
+                    }
+<span class="fc bfc" id="L403" title="All 2 branches covered.">                    if (cord[0] &gt; 864) {</span>
+<span class="fc" id="L404">                        cord[0] = 864;</span>
+                    }
+<span class="fc" id="L406">                    float[] temp = listOfPointsTerrain.get((int) cord[0]);</span>
+<span class="fc" id="L407">                    yCord = temp[1] - 32;</span>
+<span class="fc" id="L408">                    cord[1] = yCord;</span>
+<span class="fc" id="L409">                    listOfPointsTree.add(cord);</span>
+                }
+
+<span class="fc" id="L412">                i += 1;</span>
+            }
+<span class="fc" id="L414">            yCord += 1;</span>
+<span class="fc" id="L415">        }</span>
+
+<span class="fc" id="L417">    }</span>
+
+    /**
+     * Setting up tank from level files
+     * 
+     * @param scan scanner object
+     */
+    public void tankSetup(Scanner scan) {
+        String fInput;
+
+        JSONObject jsonObj1;
+        char charOfF;
+<span class="fc" id="L429">        float yCord = 0;</span>
+<span class="fc" id="L430">        jsonObj1 = jsonObj.getJSONObject(&quot;player_colours&quot;);</span>
+<span class="fc" id="L431">        ArrayList&lt;Tankpiece&gt; tempArrayList = new ArrayList&lt;Tankpiece&gt;();</span>
+
+<span class="fc bfc" id="L433" title="All 2 branches covered.">        while (scan.hasNextLine()) {</span>
+<span class="fc" id="L434">            fInput = scan.nextLine();</span>
+<span class="fc" id="L435">            int i = 0;</span>
+
+<span class="fc bfc" id="L437" title="All 2 branches covered.">            while (i &lt; fInput.length()) { // The file contain spaces which is 28*20</span>
+<span class="fc" id="L438">                charOfF = fInput.charAt(i);</span>
+                // String c = String.valueOf(charOfF).trim();
+<span class="fc bfc" id="L440" title="All 4 branches covered.">                if (charOfF != 'T' &amp;&amp; charOfF != 'X' </span>
+<span class="fc bfc" id="L441" title="All 2 branches covered.">                        &amp;&amp; !String.valueOf(charOfF).trim().equals(&quot;&quot;)) { // WEIRD char_of_f==' '</span>
+                    // System.out.println(char_of_f); debug
+<span class="fc" id="L443">                    float[] cord = new float[2];</span>
+
+<span class="fc" id="L445">                    cord[0] = i * 32;</span>
+
+<span class="fc" id="L447">                    float[] temp = listOfPointsTerrain.get((int) cord[0]);</span>
+<span class="fc" id="L448">                    yCord = temp[1];</span>
+<span class="fc" id="L449">                    cord[1] = yCord;</span>
+<span class="fc" id="L450">                    String color = jsonObj1.getString(String.valueOf(charOfF));</span>
+
+<span class="fc bfc" id="L452" title="All 2 branches covered.">                    if (color.equals(&quot;random&quot;)) {</span>
+<span class="fc" id="L453">                        color = &quot;&quot;;</span>
+<span class="fc bfc" id="L454" title="All 2 branches covered.">                        for (int cont = 0; cont &lt; 3; cont++) {</span>
+<span class="fc" id="L455">                            int min = 0;</span>
+<span class="fc" id="L456">                            int max = 255;</span>
+
+<span class="fc" id="L458">                            int colorNum = (int) Math.floor(Math.random() * (max - min + 1) + min);</span>
+<span class="fc" id="L459">                            String colorString = String.valueOf(colorNum);</span>
+<span class="fc bfc" id="L460" title="All 2 branches covered.">                            if (cont &lt; 2) {</span>
+<span class="fc" id="L461">                                color += colorString + &quot;,&quot;;</span>
+
+                            } else {
+<span class="fc" id="L464">                                color += colorString;</span>
+                            }
+                        }
+
+                    }
+
+<span class="fc bfc" id="L470" title="All 2 branches covered.">                    if (init == false) {</span>
+<span class="fc" id="L471">                        Tankpiece a = new Tankpiece(cord[0], cord[1], color, charOfF, 0, 3);</span>
+<span class="fc" id="L472">                        tempArrayList.add(a);</span>
+<span class="fc" id="L473">                    } else {</span>
+<span class="fc" id="L474">                        int p = 0;</span>
+<span class="fc" id="L475">                        int parachute = 0;</span>
+
+<span class="fc bfc" id="L477" title="All 2 branches covered.">                        for (Tankpiece t : listOfTankpiecesFinal) {</span>
+<span class="fc bfc" id="L478" title="All 2 branches covered.">                            if (t.getCallSign() == charOfF) {</span>
+<span class="fc" id="L479">                                p = t.getPoint();</span>
+<span class="fc" id="L480">                                parachute = t.getParachute();</span>
+<span class="fc" id="L481">                                color = t.coloString;</span>
+                            }
+<span class="fc" id="L483">                        }</span>
+<span class="fc" id="L484">                        Tankpiece a = new Tankpiece(cord[0], cord[1], color, charOfF, p, parachute);</span>
+<span class="fc" id="L485">                        tempArrayList.add(a);</span>
+                    }
+
+                }
+
+<span class="fc" id="L490">                i += 1;</span>
+            }
+<span class="fc" id="L492">            yCord += 1;</span>
+<span class="fc" id="L493">        }</span>
+
+<span class="fc" id="L495">        listOfTankpieces = sortTank(tempArrayList);</span>
+<span class="fc" id="L496">        listOfTankpiecesFinal = new ArrayList&lt;Tankpiece&gt;(listOfTankpieces);</span>
+<span class="fc" id="L497">        init = true;</span>
+
+<span class="fc" id="L499">    }</span>
+
+    /**
+     * Sorting tank using the call sign(in ascending order)
+     * 
+     * @param list an arraylist consists of Tankpieces
+     * @return an arraylist consists of tankpieces in sorted order
+     */
+    public ArrayList&lt;Tankpiece&gt; sortTank(ArrayList&lt;Tankpiece&gt; list) {
+<span class="fc" id="L508">        ArrayList&lt;Tankpiece&gt; new_ArrayList = new ArrayList&lt;Tankpiece&gt;();</span>
+<span class="fc bfc" id="L509" title="All 2 branches covered.">        while (list.size() &gt; 0) {</span>
+<span class="fc" id="L510">            Tankpiece minArray = list.get(0);</span>
+<span class="fc" id="L511">            char minNum = minArray.getCallSign();</span>
+
+<span class="fc bfc" id="L513" title="All 2 branches covered.">            for (int i = 1; i &lt; list.size(); i++) {</span>
+<span class="fc" id="L514">                Tankpiece tempArray = list.get(i);</span>
+<span class="fc" id="L515">                char tempNum = tempArray.getCallSign();</span>
+<span class="fc bfc" id="L516" title="All 2 branches covered.">                if (tempNum &lt; minNum) {</span>
+<span class="fc" id="L517">                    minArray = tempArray;</span>
+<span class="fc" id="L518">                    minNum = tempNum;</span>
+                }
+
+            }
+<span class="fc" id="L522">            new_ArrayList.add(minArray);</span>
+<span class="fc" id="L523">            list.remove(list.indexOf(minArray));</span>
+
+<span class="fc" id="L525">        }</span>
+
+<span class="fc" id="L527">        return new_ArrayList;</span>
+    }
+
+    /**
+     * Processing move according to the boolean value, which is fetched from
+     * keyboard input
+     */
+
+    public void processMove() {
+<span class="fc bfc" id="L536" title="All 4 branches covered.">        if (turretMovLeft &amp;&amp; !turretMovRight) {</span>
+<span class="fc" id="L537">            currentPlayer.turretMovLeft();</span>
+        }
+<span class="fc bfc" id="L539" title="All 4 branches covered.">        if (turretMovRight &amp;&amp; !turretMovLeft) {</span>
+<span class="fc" id="L540">            currentPlayer.turretMovRight();</span>
+        }
+<span class="fc bfc" id="L542" title="All 4 branches covered.">        if (tankMoveLeft &amp;&amp; !tankMoveRight) {</span>
+<span class="fc" id="L543">            currentPlayer.tankMoveLeft(listOfPointsTerrain);</span>
+        }
+<span class="fc bfc" id="L545" title="All 4 branches covered.">        if (tankMoveRight &amp;&amp; !tankMoveLeft) {</span>
+<span class="fc" id="L546">            currentPlayer.tankMoveRight(listOfPointsTerrain);</span>
+
+        }
+<span class="fc bfc" id="L549" title="All 4 branches covered.">        if (wPress &amp;&amp; !sPress) {</span>
+<span class="fc" id="L550">            currentPlayer.powerIncrease();</span>
+
+        }
+<span class="fc bfc" id="L553" title="All 4 branches covered.">        if (sPress &amp;&amp; !wPress) {</span>
+<span class="fc" id="L554">            currentPlayer.powerDecrease();</span>
+
+        }
+
+<span class="fc" id="L558">    }</span>
+
+    /**
+     * Processing projectiles and get projectile status
+     * 
+     * @param listOfProjectiles an arraylist consists of projectiles
+     */
+    public void processProjectile(ArrayList&lt;Projectile&gt; listOfProjectiles) {
+<span class="fc" id="L566">        ArrayList&lt;Projectile&gt; listOfProjectilesCopy = new ArrayList&lt;Projectile&gt;(listOfProjectiles);</span>
+<span class="fc bfc" id="L567" title="All 2 branches covered.">        for (Projectile projectile : listOfProjectilesCopy) {</span>
+<span class="pc bpc" id="L568" title="1 of 2 branches missed.">            if (projectile.getIfMove()) {</span>
+<span class="fc" id="L569">                projectile.projectileMove();</span>
+
+            }
+<span class="pc bpc" id="L572" title="2 of 6 branches missed.">            if (projectile.getCordX() &lt; -15 || projectile.getCordX() &gt; 880 || projectile.getCordY() &gt; 700) {</span>
+                // System.out.println(&quot;triggered&quot;);
+<span class="fc" id="L574">                listOfProjectiles.remove(projectile);</span>
+<span class="fc" id="L575">                continue;</span>
+            }
+
+<span class="fc bfc" id="L578" title="All 2 branches covered.">            if (!projectile.getIsInit()) {</span>
+
+<span class="fc" id="L580">                projectile.clash();</span>
+            }
+
+<span class="fc" id="L583">        }</span>
+
+<span class="fc" id="L585">    }</span>
+
+    /**
+     * Responsible for switching players in different situations
+     */
+    public void playerSwitch() {
+<span class="pc bpc" id="L591" title="1 of 2 branches missed.">        if (currentPlayerIndex &gt;= listOfTankpieces.size() - 1) {</span>
+<span class="nc" id="L592">            currentPlayerIndex = -1;</span>
+        }
+<span class="fc bfc" id="L594" title="All 2 branches covered.">        if (currentPlayerIndex &lt;= -1) {</span>
+<span class="fc" id="L595">            currentPlayerIndex = -1;</span>
+        }
+<span class="fc" id="L597">        currentPlayerIndex += 1;</span>
+
+<span class="pc bpc" id="L599" title="1 of 2 branches missed.">        if (listOfTankpieces.size() &gt; 0) {</span>
+<span class="fc" id="L600">            currentPlayer = listOfTankpieces.get(currentPlayerIndex);</span>
+<span class="fc" id="L601">            currentPlayer.ifIterate = true;</span>
+<span class="fc" id="L602">            currentPlayer.ifExecute = true;</span>
+        }
+
+<span class="fc bfc" id="L605" title="All 2 branches covered.">        if (currentPlayerIndex &gt;= listOfTankpieces.size() - 1) {</span>
+<span class="fc" id="L606">            currentPlayerIndex = -1;</span>
+        }
+<span class="fc" id="L608">    }</span>
+
+    /**
+     * Draw all elements in the game by current frame.
+     */
+    @Override
+    public void draw() {
+
+<span class="fc" id="L616">        image(img, 0, 0);</span>
+
+<span class="fc" id="L618">        Terrain t = new Terrain();</span>
+
+<span class="fc" id="L620">        t.draw(this, listOfPointsTerrain, listOfPointsTree, imgTree, foregroundColour);</span>
+
+<span class="fc" id="L622">        processMove();</span>
+<span class="fc bfc" id="L623" title="All 2 branches covered.">        for (Tankpiece tank : listOfTankpieces) {</span>
+
+<span class="fc" id="L625">            tank.draw(this, listOfPointsTerrain, imgParachute, currentPlayer);</span>
+<span class="fc" id="L626">        }</span>
+
+<span class="fc" id="L628">        processProjectile(listOfProjectiles);</span>
+
+<span class="fc bfc" id="L630" title="All 2 branches covered.">        for (Projectile projectile : listOfProjectiles) {</span>
+<span class="fc bfc" id="L631" title="All 2 branches covered.">            if (projectile.getIfMove()) {</span>
+<span class="fc" id="L632">                projectile.draw(this);</span>
+            }
+
+<span class="fc" id="L635">        }</span>
+
+<span class="fc bfc" id="L637" title="All 2 branches covered.">        for (Projectile projectile : listOfProjectiles) {</span>
+<span class="fc bfc" id="L638" title="All 2 branches covered.">            if (projectile.projectileSmall()) {</span>
+<span class="pc bpc" id="L639" title="1 of 4 branches missed.">                if (!projectile.getIfMove() &amp;&amp; !projectile.toRemove) {</span>
+<span class="fc" id="L640">                    Explosion e = new Explosion(projectile.getCordX(), projectile.getCordY(), 3);</span>
+<span class="fc" id="L641">                    listOfExplosions.add(e);</span>
+<span class="fc" id="L642">                    projectile.toRemove = true;</span>
+<span class="fc" id="L643">                }</span>
+            } else {
+<span class="pc bpc" id="L645" title="1 of 4 branches missed.">                if (!projectile.getIfMove() &amp;&amp; !projectile.toRemove) {</span>
+<span class="fc" id="L646">                    Explosion e = new Explosion(projectile.getCordX(), projectile.getCordY(), 6);</span>
+<span class="fc" id="L647">                    listOfExplosions.add(e);</span>
+<span class="fc" id="L648">                    projectile.toRemove = true;</span>
+                }
+
+            }
+<span class="fc" id="L652">        }</span>
+<span class="fc" id="L653">        ArrayList&lt;Explosion&gt; list_of_Explosions_copy = new ArrayList&lt;Explosion&gt;(listOfExplosions);</span>
+<span class="fc bfc" id="L654" title="All 2 branches covered.">        for (Explosion e : list_of_Explosions_copy) {</span>
+<span class="fc bfc" id="L655" title="All 2 branches covered.">            if (e.status) {</span>
+<span class="fc" id="L656">                listOfExplosions.remove(e);</span>
+            }
+<span class="fc" id="L658">            e.explode(this);</span>
+<span class="fc" id="L659">        }</span>
+<span class="fc" id="L660">        ArrayList&lt;Projectile&gt; listOfProjectilesCopy = new ArrayList&lt;Projectile&gt;(listOfProjectiles);</span>
+
+<span class="fc bfc" id="L662" title="All 2 branches covered.">        for (Projectile projectile : listOfProjectilesCopy) {</span>
+<span class="fc bfc" id="L663" title="All 2 branches covered.">            if (projectile.projectileSmall()) {</span>
+<span class="fc bfc" id="L664" title="All 2 branches covered.">                if (projectile.toRemove) {</span>
+
+<span class="fc" id="L666">                    Terrain.terrainDamageProj(listOfPointsTerrain, listOfTankpieces, projectile, 30);</span>
+
+<span class="fc" id="L668">                    listOfProjectiles.remove(projectile);</span>
+
+<span class="fc" id="L670">                    DamageCalculation.projectileDamage(listOfTankpieces, projectile, 30);</span>
+                }
+
+            } else {
+<span class="fc bfc" id="L674" title="All 2 branches covered.">                if (projectile.toRemove) {</span>
+                    // System.out.println(&quot;Enter&quot;);
+
+<span class="fc" id="L677">                    Terrain.terrainDamageProj(listOfPointsTerrain, listOfTankpieces, projectile, 60);</span>
+
+<span class="fc" id="L679">                    listOfProjectiles.remove(projectile);</span>
+
+<span class="fc" id="L681">                    DamageCalculation.projectileDamage(listOfTankpieces, projectile, 60);</span>
+                }
+            }
+
+<span class="fc" id="L685">        }</span>
+
+<span class="fc" id="L687">        wind.draw(this);</span>
+
+<span class="fc" id="L689">        ui.draw(this, imgFuel, imgParachute, currentPlayer, currentPlayer.getProjSize(), gameEnd);</span>
+
+<span class="fc" id="L691">        ArrayList&lt;Tankpiece&gt; listOfTankpiecesCopy = new ArrayList&lt;Tankpiece&gt;(listOfTankpieces);</span>
+
+<span class="fc bfc" id="L693" title="All 2 branches covered.">        for (Tankpiece tmp : listOfTankpiecesCopy) {</span>
+            // System.out.println(tmp.get_cord_y());
+<span class="fc bfc" id="L695" title="All 2 branches covered.">            if (tmp.getHp() == 0) {</span>
+
+<span class="fc" id="L697">                Explosion ep = new Explosion(tmp.getCordX(), tmp.getCordY(), 1.5f);</span>
+<span class="fc" id="L698">                listOfExplosions.add(ep);</span>
+<span class="fc" id="L699">                listOfTankpieces.remove(tmp);</span>
+
+<span class="fc" id="L701">                Terrain.terrainDamageTank(listOfPointsTerrain, tmp, 15);</span>
+
+<span class="fc" id="L703">                DamageCalculation.tankDamage(listOfTankpiecesCopy, tmp, 15);</span>
+
+<span class="pc bpc" id="L705" title="1 of 2 branches missed.">                if (tmp == currentPlayer) {</span>
+<span class="fc" id="L706">                    currentPlayerIndex -= 1;</span>
+<span class="fc" id="L707">                    playerSwitch();</span>
+<span class="fc" id="L708">                    continue;</span>
+                }
+
+<span class="pc bfc" id="L711" title="All 2 branches covered.">            } else if (tmp.getCordY() &gt;= 640) {</span>
+
+<span class="fc" id="L713">                Explosion ep = new Explosion(tmp.getCordX(), tmp.getCordY(), 3);</span>
+<span class="fc" id="L714">                listOfExplosions.add(ep);</span>
+<span class="fc" id="L715">                listOfTankpieces.remove(tmp);</span>
+
+<span class="fc" id="L717">                Terrain.terrainDamageTank(listOfPointsTerrain, tmp, 30);</span>
+
+<span class="fc" id="L719">                DamageCalculation.tankDamage(listOfTankpiecesCopy, tmp, 30);</span>
+
+<span class="pc bpc" id="L721" title="1 of 2 branches missed.">                if (tmp == currentPlayer) {</span>
+<span class="fc" id="L722">                    currentPlayerIndex -= 1;</span>
+<span class="fc" id="L723">                    playerSwitch();</span>
+                }
+
+            }
+
+<span class="fc" id="L728">        }</span>
+<span class="fc bfc" id="L729" title="All 4 branches covered.">        if (listOfTankpieces.size() &lt;= 1 &amp;&amp; !gameEnd) {</span>
+<span class="fc bfc" id="L730" title="All 2 branches covered.">            if (ifExecute2) {</span>
+<span class="fc" id="L731">                level += 1;</span>
+            }
+<span class="fc bfc" id="L733" title="All 2 branches covered.">            if (level == total_level) {</span>
+
+<span class="fc" id="L735">                gameEnd = true;</span>
+            }
+<span class="fc bfc" id="L737" title="All 2 branches covered.">            if (ifExecute2) {</span>
+<span class="fc" id="L738">                start2 = System.nanoTime();</span>
+<span class="fc" id="L739">                ifExecute2 = false;</span>
+            }
+<span class="fc" id="L741">            finish2 = System.nanoTime();</span>
+
+<span class="fc bfc" id="L743" title="All 2 branches covered.">            if (finish2 - start2 &gt;= 1 * 1000000000) {</span>
+<span class="pc bpc" id="L744" title="1 of 2 branches missed.">                if (!gameEnd) {</span>
+<span class="fc" id="L745">                    ifExecute2 = true;</span>
+<span class="fc" id="L746">                    reset();</span>
+                }
+            }
+        }
+
+<span class="fc bfc" id="L751" title="All 2 branches covered.">        if (gameEnd) {</span>
+<span class="fc" id="L752">            ui.endGameUI(this);</span>
+
+        }
+
+<span class="fc" id="L756">    }</span>
+
+    public static void main(String[] args) {
+<span class="fc" id="L759">        PApplet.main(&quot;Tanks.App&quot;);</span>
+<span class="fc" id="L760">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

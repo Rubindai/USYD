@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Tankpiece.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tanks_scaffold</a> &gt; <a href="index.source.html" class="el_package">Tanks</a> &gt; <span class="el_source">Tankpiece.java</span></div><h1>Tankpiece.java</h1><pre class="source lang-java linenums">package Tanks;
+
+import java.util.*;
+
+import processing.core.PImage;
+
+public class Tankpiece {
+<span class="fc" id="L8">    public int fuel = 250;</span>
+<span class="fc" id="L9">    public int hp = 100;</span>
+<span class="fc" id="L10">    public int parachute = 3;</span>
+    private float cordX;
+    private float cordY;
+
+    private float start;
+    private float finish;
+<span class="fc" id="L16">    private int power = 50;</span>
+
+    private String[] color;
+    private char callSign;
+<span class="fc" id="L20">    private float[] turretPos = new float[2];</span>
+
+<span class="fc" id="L22">    private double degree = 0;</span>
+
+    private double initCordXTurret;
+    private double initCordYTurret;
+    private Projectile projectile;
+
+    private boolean parachuteExpand;
+
+<span class="fc" id="L30">    public boolean ifExecute = true;</span>
+<span class="fc" id="L31">    public boolean ifIterate = true;</span>
+
+<span class="fc" id="L33">    private boolean projSize = true;</span>
+<span class="fc" id="L34">    public boolean tankFall = false;</span>
+    public String coloString;
+
+    public int point;
+
+    /**
+     * Constructor for Tankpiece
+     * 
+     * @param cordX
+     * @param cordY
+     * @param colorString
+     * @param callSign
+     * @param point
+     * @param parachute
+     */
+<span class="fc" id="L49">    public Tankpiece(float cordX, float cordY, String colorString, char callSign, int point, int parachute) {</span>
+<span class="fc" id="L50">        setCordx(cordX);</span>
+<span class="fc" id="L51">        setCordy(cordY);</span>
+<span class="fc" id="L52">        this.coloString = colorString;</span>
+<span class="fc" id="L53">        String[] temp = colorParser(colorString);</span>
+<span class="fc" id="L54">        this.color = temp;</span>
+
+<span class="fc" id="L56">        this.callSign = callSign;</span>
+<span class="fc" id="L57">        setTurretInit(cordX, cordY);</span>
+<span class="fc" id="L58">        initCordXTurret = cordX;</span>
+<span class="fc" id="L59">        initCordYTurret = cordY - 18;</span>
+<span class="fc" id="L60">        this.point = point;</span>
+<span class="fc" id="L61">        this.parachute = parachute;</span>
+
+<span class="fc" id="L63">    }</span>
+
+    public boolean getProjSize() {
+<span class="fc" id="L66">        return projSize;</span>
+    }
+
+    public void setProjSize(boolean projSize) {
+<span class="fc" id="L70">        this.projSize = projSize;</span>
+<span class="fc" id="L71">    }</span>
+
+    public void setCordx(float cordX) {
+<span class="fc" id="L74">        this.cordX = cordX;</span>
+<span class="fc" id="L75">    }</span>
+
+    public void setCordy(float cordY) {
+<span class="fc" id="L78">        this.cordY = cordY;</span>
+<span class="fc" id="L79">    }</span>
+
+    /**
+     * Set the initial position of turret
+     * 
+     * @param cordX x coordinate of the turret
+     * @param cordY y coordinate of the turret
+     */
+    public void setTurretInit(float cordX, float cordY) {
+<span class="fc" id="L88">        float[] pos = { cordX, cordY - 18 };</span>
+
+<span class="fc" id="L90">        this.turretPos = pos;</span>
+
+<span class="fc" id="L92">    }</span>
+
+    /**
+     * Set the point the tank received
+     * 
+     * @param point point gained by the player
+     * @param t     t of type Tankpiece
+     */
+    public void setPoint(int point, Tankpiece t) {
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (point &gt; t.getHp()) {</span>
+<span class="fc" id="L102">            point = t.getHp();</span>
+        }
+        // System.out.println(&quot;hp: &quot;+this.hp+&quot; point: &quot;+point);
+<span class="fc" id="L105">        this.point += point;</span>
+<span class="fc" id="L106">    }</span>
+
+    /**
+     * Set the hp of the tank
+     * 
+     * @param hp an integer hp
+     */
+    public void setHp(int hp) {
+<span class="fc" id="L114">        this.hp += hp;</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (this.hp &gt; 100) {</span>
+<span class="fc" id="L116">            this.hp = 100;</span>
+        }
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (this.hp &lt; 0) {</span>
+<span class="fc" id="L119">            this.hp = 0;</span>
+        }
+<span class="fc" id="L121">        checkPower();</span>
+<span class="fc" id="L122">    }</span>
+
+    /**
+     * Set the number of parachute
+     * 
+     * @param parachute the number of parachute
+     */
+    public void setParachute(int parachute) {
+<span class="fc" id="L130">        this.parachute += parachute;</span>
+<span class="fc" id="L131">    }</span>
+
+    public void setProjectile(Projectile projectile) {
+<span class="fc" id="L134">        this.projectile = projectile;</span>
+<span class="fc" id="L135">    }</span>
+
+    public float getCordX() {
+<span class="fc" id="L138">        return cordX;</span>
+    }
+
+    public float getCordY() {
+<span class="fc" id="L142">        return cordY;</span>
+    }
+
+    public int getPoint() {
+<span class="fc" id="L146">        return point;</span>
+    }
+
+    // public float[] get_pos(){
+
+    // return pos;
+    // }
+    public char getCallSign() {
+<span class="fc" id="L154">        return callSign;</span>
+    }
+
+    public String[] getColor() {
+<span class="fc" id="L158">        return color;</span>
+    }
+
+    public int getPower() {
+<span class="fc" id="L162">        return power;</span>
+    }
+
+    public int getFuel() {
+<span class="fc" id="L166">        return fuel;</span>
+    }
+
+    public int getParachute() {
+<span class="fc" id="L170">        return parachute;</span>
+    }
+
+    public int getHp() {
+
+<span class="fc" id="L175">        return hp;</span>
+    }
+
+    public double getDegree() {
+<span class="fc" id="L179">        return degree;</span>
+    }
+
+    public float[] getTurretPos() {
+<span class="fc" id="L183">        return turretPos;</span>
+    }
+
+    /**
+     * A color parser that convert String color to a list of string
+     * 
+     * @param color a string of color
+     * @return a list of string
+     */
+    public String[] colorParser(String color) {
+<span class="fc" id="L193">        String[] temp = color.split(&quot;,&quot;);</span>
+<span class="fc" id="L194">        return temp;</span>
+    }
+
+    /**
+     * Process turret movement to make sure its relevant position
+     */
+    public void processTurret() {
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (Math.abs(degree) &lt; 90) {</span>
+            // System.out.println(degree);
+
+<span class="fc" id="L204">            double turn = degree;</span>
+<span class="fc" id="L205">            turn = Math.toRadians(turn);</span>
+<span class="fc" id="L206">            double turn_sin = Math.sin(turn);</span>
+<span class="fc" id="L207">            double turn_cos = Math.cos(turn);</span>
+<span class="fc" id="L208">            turretPos[0] = (float) (initCordXTurret + (15 * turn_sin));</span>
+            // System.out.print(turret_pos[1]-15*turn_cos);
+<span class="fc" id="L210">            turretPos[1] = (float) (initCordYTurret + (15 - 15 * turn_cos));</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">        } else if (degree &gt;= 90) {</span>
+<span class="fc" id="L212">            degree = 90;</span>
+<span class="fc" id="L213">            double turn = degree;</span>
+<span class="fc" id="L214">            turn = Math.toRadians(turn);</span>
+<span class="fc" id="L215">            double turn_sin = Math.sin(turn);</span>
+<span class="fc" id="L216">            double turn_cos = Math.cos(turn);</span>
+<span class="fc" id="L217">            turretPos[0] = (float) (initCordXTurret + Math.abs(15 * turn_sin));</span>
+            // System.out.print(turret_pos[1]-15*turn_cos);
+<span class="fc" id="L219">            turretPos[1] = (float) (initCordYTurret + (15 - 15 * turn_cos));</span>
+
+<span class="pc bpc" id="L221" title="1 of 2 branches missed.">        } else if (degree &lt;= -90) {</span>
+<span class="fc" id="L222">            degree = -90;</span>
+<span class="fc" id="L223">            double turn = degree;</span>
+<span class="fc" id="L224">            turn = Math.toRadians(turn);</span>
+<span class="fc" id="L225">            double turn_sin = Math.sin(turn);</span>
+<span class="fc" id="L226">            double turn_cos = Math.cos(turn);</span>
+<span class="fc" id="L227">            turretPos[0] = (float) (initCordXTurret - Math.abs(15 * turn_sin));</span>
+            // System.out.print(turret_pos[1]-15*turn_cos);
+<span class="fc" id="L229">            turretPos[1] = (float) (initCordYTurret + (15 - 15 * turn_cos));</span>
+        }
+<span class="fc" id="L231">    }</span>
+
+    /**
+     * Process turret movement when turret moves to left
+     */
+    public void turretMovLeft() { // move 30 deg each time
+
+<span class="fc" id="L238">        degree = degree - 171.887339 / 60;</span>
+<span class="fc" id="L239">        processTurret();</span>
+<span class="fc" id="L240">    }</span>
+
+    /**
+     * Process turret movement when turret moves to right
+     */
+    public void turretMovRight() { // move 30 deg each time
+
+<span class="fc" id="L247">        degree = degree + 171.887339 / 60;</span>
+<span class="fc" id="L248">        processTurret();</span>
+<span class="fc" id="L249">    }</span>
+
+    /**
+     * Process tank movement when tank moves to left
+     * 
+     * @param listOfPointsTerrain an arraylist of type list of float
+     */
+    public void tankMoveLeft(ArrayList&lt;float[]&gt; listOfPointsTerrain) {
+<span class="fc bfc" id="L257" title="All 4 branches covered.">        if (cordX &gt; 0 &amp;&amp; fuel &gt; 0) {</span>
+<span class="fc" id="L258">            cordX -= 1;</span>
+<span class="fc" id="L259">            fuel -= 1;</span>
+<span class="fc" id="L260">            float[] temp = listOfPointsTerrain.get((int) cordX);</span>
+<span class="fc" id="L261">            cordY = temp[1];</span>
+<span class="fc" id="L262">            initCordXTurret = cordX;</span>
+<span class="fc" id="L263">            initCordYTurret = cordY - 18;</span>
+
+<span class="fc" id="L265">            processTurret();</span>
+
+        }
+<span class="fc" id="L268">    }</span>
+
+    /**
+     * Process tank movement when tank moves to left
+     * 
+     * @param listOfPointsTerrain an arraylist of type list of float
+     *
+     */
+    public void tankMoveRight(ArrayList&lt;float[]&gt; listOfPointsTerrain) {
+<span class="pc bpc" id="L277" title="1 of 4 branches missed.">        if (cordX &lt; 864 &amp;&amp; fuel &gt; 0) {</span>
+<span class="fc" id="L278">            cordX += 1;</span>
+<span class="fc" id="L279">            fuel -= 1;</span>
+<span class="fc" id="L280">            float[] temp = listOfPointsTerrain.get((int) cordX);</span>
+<span class="fc" id="L281">            cordY = temp[1];</span>
+<span class="fc" id="L282">            initCordXTurret = cordX;</span>
+<span class="fc" id="L283">            initCordYTurret = cordY - 18;</span>
+
+            // set_turret_init(cord_x, cord_y);
+<span class="fc" id="L286">            processTurret();</span>
+            // System.out.println(degree);
+
+        }
+<span class="fc" id="L290">    }</span>
+
+    /**
+     * Check power level to make sure it's reasonable
+     */
+    public void checkPower() {
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (power &gt; hp) {</span>
+<span class="fc" id="L297">            power = hp;</span>
+        }
+<span class="fc bfc" id="L299" title="All 2 branches covered.">        if (power &lt; 0) {</span>
+<span class="fc" id="L300">            power = 0;</span>
+        }
+<span class="fc" id="L302">    }</span>
+
+    /**
+     * Process power level when power increase
+     */
+    public void powerIncrease() {
+
+<span class="fc" id="L309">        power += 1;</span>
+<span class="fc" id="L310">        checkPower();</span>
+<span class="fc" id="L311">    }</span>
+
+    /**
+     * Process power level when power decrease
+     */
+    public void powerDecrease() {
+<span class="fc" id="L317">        power -= 1;</span>
+<span class="fc" id="L318">        checkPower();</span>
+<span class="fc" id="L319">    }</span>
+
+    /**
+     * Add fuel by amount a
+     * 
+     * @param a an integer a
+     */
+    public void addFuel(int a) {
+<span class="fc" id="L327">        fuel += a;</span>
+
+<span class="fc" id="L329">    }</span>
+
+<span class="fc" id="L331">    private int dmgSum = 0;</span>
+
+    /**
+     * Check tank position
+     * 
+     * @param listOfPointsTerrain an arraylist consists of terrain coordinates
+     */
+    public void tankCheck(ArrayList&lt;float[]&gt; listOfPointsTerrain) {
+        // System.out.println(listOfPointsTerrain.size()+&quot;cordx: &quot;+cordX);
+<span class="fc bfc" id="L340" title="All 2 branches covered.">        if (cordY &lt; listOfPointsTerrain.get((int) cordX)[1]) {</span>
+<span class="fc" id="L341">            tankFall = true;</span>
+<span class="pc bpc" id="L342" title="1 of 4 branches missed.">            if (parachute &gt; 0 || parachuteExpand) {</span>
+<span class="fc bfc" id="L343" title="All 2 branches covered.">                if (!parachuteExpand) {</span>
+<span class="fc" id="L344">                    parachuteExpand = true;</span>
+<span class="fc" id="L345">                    parachute--;</span>
+
+                }
+<span class="fc" id="L348">                cordY += 1;</span>
+<span class="fc" id="L349">                initCordXTurret = cordX;</span>
+<span class="fc" id="L350">                initCordYTurret = cordY - 18;</span>
+<span class="fc" id="L351">                processTurret();</span>
+            } else {
+<span class="fc" id="L353">                cordY += 2;</span>
+<span class="fc" id="L354">                dmgSum += 2;</span>
+<span class="fc" id="L355">                initCordXTurret = cordX;</span>
+<span class="fc" id="L356">                initCordYTurret = cordY - 18;</span>
+<span class="fc" id="L357">                processTurret();</span>
+            }
+        } else {
+<span class="fc" id="L360">            tankFall = false;</span>
+<span class="fc bfc" id="L361" title="All 2 branches covered.">            if (projectile != null) {</span>
+                // System.out.println(&quot;this is called in tankpiece&quot;);
+<span class="fc" id="L363">                projectile.getBelonging().setPoint(dmgSum, this);</span>
+<span class="fc" id="L364">                setHp(-dmgSum);</span>
+            }
+<span class="fc" id="L366">            dmgSum = 0;</span>
+<span class="fc" id="L367">            projectile = null;</span>
+<span class="fc" id="L368">            parachuteExpand = false;</span>
+
+        }
+<span class="fc" id="L371">    }</span>
+
+    /**
+     * Draw tank
+     * 
+     * @param app                 app from App
+     * @param listOfPointsTerrain an arraylist consists of terrain coordinates
+     * @param img_parachute       parachute image
+     * @param currentPlayer       currentPlayer of the game, type Tankpiece
+     */
+    public void draw(App app, ArrayList&lt;float[]&gt; listOfPointsTerrain, PImage img_parachute, Tankpiece currentPlayer) {
+
+<span class="fc" id="L383">        tankCheck(listOfPointsTerrain);</span>
+
+<span class="fc" id="L385">        app.stroke(0, 0, 0);</span>
+<span class="fc" id="L386">        app.strokeWeight(4);</span>
+<span class="fc" id="L387">        app.line(turretPos[0], turretPos[1], cordX, cordY - 3);</span>
+
+<span class="fc" id="L389">        app.noStroke();</span>
+<span class="fc" id="L390">        app.fill(Float.parseFloat(color[0]), Float.parseFloat(color[1]), Float.parseFloat(color[2]));</span>
+<span class="fc" id="L391">        app.rect(cordX - 10, cordY, 20, 5);</span>
+<span class="fc" id="L392">        app.rect(cordX - 7.5f, cordY - 5, 15, 5);</span>
+
+<span class="fc bfc" id="L394" title="All 2 branches covered.">        if (parachuteExpand) {</span>
+<span class="fc" id="L395">            app.image(img_parachute, cordX - 10 - 5, cordY - 35, 32, 32);</span>
+        }
+<span class="fc bfc" id="L397" title="All 2 branches covered.">        if (this == currentPlayer) {</span>
+<span class="fc" id="L398">            finish = System.nanoTime();</span>
+<span class="fc bfc" id="L399" title="All 2 branches covered.">            if (ifExecute) {</span>
+<span class="fc" id="L400">                app.stroke(0, 0, 0);</span>
+<span class="fc" id="L401">                app.strokeWeight(2f);</span>
+<span class="fc" id="L402">                app.line(cordX, cordY - 100, cordX, cordY - 50);</span>
+<span class="fc" id="L403">                app.line(cordX - 10, cordY - 70, cordX, cordY - 50);</span>
+<span class="fc" id="L404">                app.line(cordX + 10, cordY - 70, cordX, cordY - 50);</span>
+<span class="fc bfc" id="L405" title="All 2 branches covered.">                if (ifIterate) {</span>
+<span class="fc" id="L406">                    start = System.nanoTime();</span>
+                }
+<span class="fc" id="L408">                ifIterate = false;</span>
+
+            }
+<span class="fc bfc" id="L411" title="All 2 branches covered.">            if (finish - start &gt; 2 * 1000000000) {</span>
+<span class="fc" id="L412">                ifExecute = false;</span>
+            }
+
+        }
+
+<span class="fc" id="L417">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

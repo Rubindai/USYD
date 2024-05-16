@@ -17,15 +17,20 @@ public class Projectile {
     private boolean isInit = true;
     private boolean projSmall = true;
     private boolean ifMove = true;
-    public boolean toRemove=false;
-  
-    
+    public boolean toRemove = false;
 
-    // private ArrayList<Tankpiece> list_of_Tankpieces;
-    private ArrayList<float[]> listOfPointsTerrian;
+    private ArrayList<float[]> listOfPointsTerrain;
 
+    /**
+     * Constructor for Projectile
+     * 
+     * @param t
+     * @param w
+     * @param listOfPointsTerrain
+     * @param projSmall
+     */
     public Projectile(Tankpiece t, Wind w,
-            ArrayList<float[]> listOfPointsTerrian,boolean projSmall) {
+            ArrayList<float[]> listOfPointsTerrain, boolean projSmall) {
         this.current = t;
         this.cordX = t.getCordX();
         this.cordY = t.getCordY();
@@ -34,11 +39,14 @@ public class Projectile {
         this.degree = t.getDegree();
         this.power = t.getPower();
         this.w = w;
-        // this.list_of_Tankpieces = list_of_Tankpieces;
-        this.listOfPointsTerrian = listOfPointsTerrian;
-        this.projSmall=projSmall;
+
+        this.listOfPointsTerrain = listOfPointsTerrain;
+        this.projSmall = projSmall;
     }
 
+    /**
+     * Setting the initial projectile path when the projectile is in turret
+     */
     public void projectileInit() {
 
         if (isInit) {
@@ -51,13 +59,11 @@ public class Projectile {
             yVal = (float) ((2 + (4 * power / 25)) * turnCos);
             xVal = (float) ((2 + (4 * power / 25)) * turnSin);
 
-            length += (1 + (2 * power / 25))*2;
+            length += (1 + (2 * power / 25)) * 2;
 
             cordX = (float) (turnSin * length + cordXInit);
             cordY = (float) (cordYInit - turnCos * length);
-            // System.out.println(length);
 
-            // System.out.println(cord_y);
             if (length >= 15) {
                 isInit = false;
             }
@@ -65,38 +71,48 @@ public class Projectile {
         }
 
     }
-    
+
+    /**
+     * Processing the movement of projectile
+     */
     public void projectileMove() {
         projectileInit();
-        
+
         if (!isInit) {
-            
-            xVal=xVal+w.getWindspeed()*0.03f/30;
-               
+
+            xVal = xVal + w.getWindspeed() * 0.03f / 30;
+
             cordX += xVal;
-           
+
             cordY -= yVal;
             yVal = (float) (yVal - (7.2 / 30));
-            // System.out.println(cord_x);
 
         }
 
     }
 
+    /**
+     * Check whether the projectile hit the terrain
+     */
     public void clash() {
-        // System.out.println("cordx: " + cord_x);
-        
-        try{
-        float[] tmp = listOfPointsTerrian.get((int) cordX);
-        // System.out.println("cordx: " + cord_x + " terrain: " + tmp[1]);
-     
-        if (cordY > tmp[1]) {
-            ifMove = false;
+
+        try {
+            float[] tmp = listOfPointsTerrain.get((int) cordX);
+
+            if (cordY > tmp[1]) {
+                ifMove = false;
+            }
+        } catch (Exception e) {
+            // System.out.println(cordY);
         }
-    } catch(Exception e){System.out.println(cordY);}
 
     }
 
+    /**
+     * Return the size of projectile
+     * 
+     * @return the size of projectile
+     */
     public boolean projectileSmall() {
         return projSmall;
     }
@@ -116,10 +132,14 @@ public class Projectile {
     public float getCordY() {
         return cordY;
     }
-    public Tankpiece getBelonging(){
+
+    public Tankpiece getBelonging() {
         return current;
     }
 
+    /**
+     * Draw projectile in the game by current frame.
+     */
     public void draw(App app) {
 
         app.fill(Float.parseFloat(current.getColor()[0]), Float.parseFloat(current.getColor()[1]),

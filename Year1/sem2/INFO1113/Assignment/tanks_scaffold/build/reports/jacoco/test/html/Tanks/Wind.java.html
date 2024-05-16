@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Wind.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tanks_scaffold</a> &gt; <a href="index.source.html" class="el_package">Tanks</a> &gt; <span class="el_source">Wind.java</span></div><h1>Wind.java</h1><pre class="source lang-java linenums">package Tanks;
+
+import processing.core.PImage;
+
+public class Wind {
+    public int windSpeed;
+    private PImage windLeft;
+    private PImage windRight;
+
+    /**
+     * Constructor for Wind
+     * @param windLeft image of windleft
+     * @param windRight image of windright
+     */
+<span class="fc" id="L15">    public Wind(PImage windLeft, PImage windRight) {</span>
+<span class="fc" id="L16">        randomInit();</span>
+<span class="fc" id="L17">        this.windLeft = windLeft;</span>
+<span class="fc" id="L18">        this.windRight = windRight;</span>
+
+<span class="fc" id="L20">    }</span>
+
+    public int getWindspeed() {
+<span class="fc" id="L23">        return windSpeed;</span>
+    }
+
+    /**
+     * Set initial random wind value when the level starts
+     */
+    public void randomInit() {
+<span class="fc" id="L30">        int min = -35;</span>
+<span class="fc" id="L31">        int max = 35;</span>
+
+<span class="fc" id="L33">        int randomWindInit = (int) Math.floor(Math.random() * (max - min + 1) + min);</span>
+<span class="fc" id="L34">        windSpeed = randomWindInit;</span>
+
+<span class="fc" id="L36">    }</span>
+
+    /**
+     * Switch wind per turn
+     */
+    public void randomTurn() {
+<span class="fc" id="L42">        int min = -5;</span>
+<span class="fc" id="L43">        int max = 5;</span>
+
+<span class="fc" id="L45">        int randomWindInit = (int) Math.floor(Math.random() * (max - min + 1) + min);</span>
+<span class="fc" id="L46">        windSpeed += randomWindInit;</span>
+      
+       
+
+<span class="fc" id="L50">    }</span>
+
+    /**
+     * Draw Wind icon
+     * @param app app from App
+     */
+    public void draw(App app) {
+        // windspeed=10;
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (windSpeed &lt; 0) {</span>
+<span class="fc" id="L59">            windLeft.resize(55, 55);</span>
+<span class="fc" id="L60">            app.image(windLeft, 760, 0);</span>
+        }
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (windSpeed &gt; 0) {</span>
+<span class="fc" id="L63">            windRight.resize(55, 55);</span>
+<span class="fc" id="L64">            app.image(windRight, 760, 0);</span>
+
+        }
+<span class="fc" id="L67">        app.fill(0, 0, 0);</span>
+
+<span class="fc" id="L69">        app.textSize(20);</span>
+<span class="fc" id="L70">        app.text(Math.abs(windSpeed), 820, 35);</span>
+<span class="fc" id="L71">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

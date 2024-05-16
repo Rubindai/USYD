@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Tanks.projectileTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-05-15T07:46:26" hostname="Rubin" time="16.11">
+  <properties/>
+  <testcase name="fireTestMultiple()" classname="Tanks.projectileTest" time="8.854"/>
+  <testcase name="fireTestSimple()" classname="Tanks.projectileTest" time="7.254"/>
+  <system-out><![CDATA[Space
+Space
+Space
+Space
+Space
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
