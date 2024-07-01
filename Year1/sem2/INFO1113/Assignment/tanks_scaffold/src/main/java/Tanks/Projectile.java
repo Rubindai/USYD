@@ -24,10 +24,10 @@ public class Projectile {
     /**
      * Constructor for Projectile
      * 
-     * @param t
-     * @param w
-     * @param listOfPointsTerrain
-     * @param projSmall
+     * @param t tankpiece who fires the projectile
+     * @param w wind of the game
+     * @param listOfPointsTerrain an arraylist consists of terrain coordinates
+     * @param projSmall projectile size
      */
     public Projectile(Tankpiece t, Wind w,
             ArrayList<float[]> listOfPointsTerrain, boolean projSmall) {
@@ -139,6 +139,7 @@ public class Projectile {
 
     /**
      * Draw projectile in the game by current frame.
+     * @param app app from App
      */
     public void draw(App app) {
 

@@ -10,8 +10,8 @@ public class Explosion implements ExplosionInterface {
     /**
      * Constructor for Explosion
      * 
-     * @param cordX
-     * @param cordY
+     * @param cordX x coordinate of the explosion
+     * @param cordY y coordinate of the explosion
      * @param expectedRadius the expected explosion radius
      */
     public Explosion(float cordX, float cordY, float expectedRadius) {

@@ -39,12 +39,12 @@ public class Tankpiece {
     /**
      * Constructor for Tankpiece
      * 
-     * @param cordX
-     * @param cordY
-     * @param colorString
-     * @param callSign
-     * @param point
-     * @param parachute
+     * @param cordX x coordinate of the tank
+     * @param cordY y coordinate of the tank
+     * @param colorString   color of the tank
+     * @param callSign the name of the tank
+     * @param point the point the tank has
+     * @param parachute the number of parachute the tank has
      */
     public Tankpiece(float cordX, float cordY, String colorString, char callSign, int point, int parachute) {
         setCordx(cordX);
@@ -146,10 +146,7 @@ public class Tankpiece {
         return point;
     }
 
-    // public float[] get_pos(){
 
-    // return pos;
-    // }
     public char getCallSign() {
         return callSign;
     }

@@ -1,82 +1,0 @@
-DOWN
-DOWN
-Space
-Space
-UP
-UP
-W
-S
-W
-Space
-LEFT
-RIGHT
-UP
-DOWN
-LEFT
-LEFT
-RIGHT
-RIGHT
-
-Space
-DOWN
-DOWN
-Space
-INVALID TURRET POSITION
-LEFT
-LEFT
-W
-S
-UP
-DOWN
-RIGHT
-LEFT
-W
-S
-RIGHT
-RIGHT
-UP
-UP
-DOWN
-DOWN
-Space
-INVALID TURRET POSITION
-RIGHT
-RIGHT
-UP
-UP
-Space
-DOWN
-DOWN
-Space
-INVALID TURRET POSITION
-LEFT
-LEFT
-UP
-UP
-Space
-INVALID TURRET POSITION
-DOWN
-DOWN
-Space
-Space
-Space
-Space
-Space
-line 90 from terrain
-line 90 from terrain
-line 90 from terrain
-line 90 from terrain
-line 90 from terrain
-! LEFT
-! LEFT
-!"RIGHT
-!"RIGHT
-!#RIGHT
-!#RIGHT
-!#LEFT
-!#LEFT
-%$Space
-%$Space
-%$Space
-%$Space
-%&Space
