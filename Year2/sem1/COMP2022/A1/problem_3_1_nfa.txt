@@ -1,0 +1,10 @@
+Sigma = a b
+Q = q0 q1 q2
+start = q0
+F = q2
+q0 b q0
+q0 a q1
+q1 b q1
+q1 a q2
+q2 a q2
+q2 b q2
