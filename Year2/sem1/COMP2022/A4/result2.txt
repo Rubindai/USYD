@@ -1,0 +1,399 @@
+Public test 0 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 1 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 2 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 3 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 4 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 5 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 6 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 7 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 8 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 9 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 10 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 11 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 12 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 13 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 14 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 15 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 16 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 17 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 18 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 19 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 20 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 21 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 22 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 23 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 24 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 25 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 26 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 27 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 28 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 29 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Error in submission on test 30 The following error occured on the public test:
+assignment_to_solution returned a Solution of the wrong length
+Public test 31 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 32 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 33 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 34 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 35 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 36 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 37 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 38 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 39 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 40 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 41 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 42 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 43 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 44 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 45 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 46 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 47 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 48 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 49 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 50 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 51 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 52 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 53 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 54 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 55 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 56 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 57 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 58 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 59 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 60 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 61 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 62 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 63 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 64 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 65 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 66 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 67 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 68 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 69 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 70 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 71 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 72 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 73 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 74 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 75 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 76 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 77 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 78 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 79 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 80 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 81 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 82 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 83 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 84 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 85 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 86 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Error in submission on test 87 The following error occured on the public test:
+assignment_to_solution returned a Solution of the wrong length
+Public test 88 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 89 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 90 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 91 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 92 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 93 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 94 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 95 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 96 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 97 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 98 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 99 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 100 Your code ran without error.
+You correctly output a satisfiable formula.
+You correctly converted a satisfying assignment into a solution.
+You correctly converted a solution into a satisfying assignment.
+
+Public test 101 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 102 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Public test 103 Your code ran without error.
+You correctly output a unsatisfiable formula.
+
+Tester done
